@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "name": "Áo Đá Banh Manchester United",
+    "category": "Áo",
+    "price": 500000,
+    "image": "https://via.placeholder.com/300x300.png?text=Ao+MU"
+  },
+  {
+    "id": 2,
+    "name": "Giày Nike Mercurial Vapor",
+    "category": "Giày",
+    "price": 2500000,
+    "image": "https://via.placeholder.com/300x300.png?text=Giay+Nike"
+  },
+  {
+    "id": 3,
+    "name": "Găng Tay Thủ Môn Adidas",
+    "category": "Phụ kiện",
+    "price": 800000,
+    "image": "https://via.placeholder.com/300x300.png?text=Gang+Tay"
+  }
+]
