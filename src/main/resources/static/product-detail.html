@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi tiết sản phẩm - ApexSports</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* === PRODUCT DETAIL PAGE === */
+        .breadcrumb {
+            background: var(--bg-secondary);
+            padding: 1rem 0;
+            font-size: 0.85rem;
+            color: var(--text-gray);
+        }
+
+        .breadcrumb a {
+            color: var(--accent-blue);
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .product-detail-wrapper {
+            display: grid;
+            grid-template-columns: 45% 55%;
+            gap: 3rem;
+            padding: 2rem 0;
+        }
+
+        /* === PRODUCT GALLERY === */
+        .product-gallery-section {
+            width: 100%;
+        }
+
+        .gallery-thumbnails {
+            display: none;
+        }
+
+        .gallery-main {
+            width: 100%;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 500px;
+            position: relative;
+        }
+
+        .gallery-main img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .gallery-nav {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: rgba(0,0,0,0.5);
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 18px;
+        }
+
+        .gallery-prev {
+            left: 10px;
+        }
+
+        .gallery-next {
+            right: 10px;
+        }
+
+        /* === PRODUCT INFO === */
+        .product-info-section h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+        }
+
+        .product-meta {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--text-gray);
+        }
+
+        .rating-section {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .stars-container {
+            display: flex;
+            gap: 2px;
+        }
+
+        .star {
+            font-size: 1.3rem;
+            color: #555;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .star:hover,
+        .star.hover {
+            color: #FFD700;
+            transform: scale(1.1);
+        }
+
+        .star.filled {
+            color: #FFD700;
+        }
+
+        .star.half-filled {
+            background: linear-gradient(90deg, #FFD700 50%, #555 50%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .rating-info {
+            color: var(--text-gray);
+            font-size: 0.85rem;
+        }
+
+        .product-meta .rating {
+            color: var(--accent-green);
+            font-weight: 600;
+        }
+
+        .product-price-section {
+            background: var(--bg-secondary);
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+        }
+
+        .price-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 8px;
+        }
+
+        .price-label {
+            color: var(--text-gray);
+            min-width: 80px;
+            font-size: 0.9rem;
+        }
+
+        .price-current {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-red);
+        }
+
+        .price-original {
+            text-decoration: line-through;
+            color: var(--text-gray);
+            font-size: 0.9rem;
+        }
+
+        .discount-badge {
+            background: var(--accent-red);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        /* === SIZE SELECTOR === */
+        .size-selector {
+            margin-bottom: 1.5rem;
+        }
+
+        .size-label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .size-options {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .size-btn {
+            padding: 8px 16px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-main);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        .size-btn:hover {
+            border-color: var(--text-light);
+        }
+
+        .size-btn.active {
+            background: var(--text-light);
+            color: var(--text-dark);
+            border-color: var(--text-light);
+        }
+
+        /* === QUANTITY === */
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 1.5rem;
+        }
+
+        .quantity-label {
+            font-weight: 600;
+            min-width: 60px;
+        }
+
+        .quantity-input {
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            width: 100px;
+        }
+
+        .quantity-input button {
+            background: var(--bg-secondary);
+            border: none;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        .quantity-input input {
+            flex: 1;
+            border: none;
+            text-align: center;
+            outline: none;
+            background: var(--bg-main);
+            color: var(--text-light);
+        }
+
+        /* === BUTTONS === */
+        .action-buttons-section {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 2rem;
+        }
+
+        .btn-primary {
+            flex: 1;
+            padding: 12px;
+            background: var(--accent-green);
+            color: var(--text-dark);
+            border: none;
+            border-radius: 4px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .btn-primary:hover {
+            background: #00cc52;
+            box-shadow: 0 0 10px rgba(0, 255, 102, 0.3);
+        }
+
+        .btn-secondary {
+            padding: 12px 20px;
+            background: var(--bg-main);
+            color: var(--text-light);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--text-light);
+        }
+
+        .btn-like {
+            width: 45px;
+            height: 45px;
+            padding: 0;
+            border: 1px solid var(--border-color);
+            background: var(--bg-main);
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+            color: var(--text-light);
+        }
+
+        .btn-like:hover {
+            border-color: var(--accent-red);
+            color: var(--accent-red);
+        }
+
+        /* === BENEFITS === */
+        .benefits-section {
+            background: var(--bg-secondary);
+            padding: 20px;
+            border-radius: 4px;
+            margin-bottom: 2rem;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .benefit-item {
+            text-align: center;
+        }
+
+        .benefit-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .benefit-text {
+            font-size: 0.85rem;
+            line-height: 1.3;
+            color: var(--text-gray);
+        }
+
+        /* === TABS === */
+        .tabs-section {
+            margin-top: 3rem;
+            border-top: 1px solid var(--border-color);
+            padding-top: 2rem;
+        }
+
+        .tabs-header {
+            display: flex;
+            border-bottom: 2px solid var(--border-color);
+            margin-bottom: 2rem;
+        }
+
+        .tab-button {
+            padding: 15px 20px;
+            background: none;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+            color: var(--text-gray);
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+            transition: all 0.3s;
+        }
+
+        .tab-button:hover {
+            color: var(--text-light);
+        }
+
+        .tab-button.active {
+            color: var(--text-light);
+            border-bottom-color: var(--accent-green);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .tab-content h3 {
+            font-weight: 700;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .tab-content p {
+            color: var(--text-gray);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        /* === RELATED PRODUCTS === */
+        .related-products-section {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .related-products-section h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+        }
+
+        .related-products-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+        }
+
+        @media (max-width: 1200px) {
+            .product-detail-wrapper {
+                grid-template-columns: 40% 60%;
+                gap: 2rem;
+            }
+
+            .related-products-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .product-detail-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery-thumbnails {
+                width: 100%;
+                flex-direction: row;
+                order: 2;
+                margin-top: 10px;
+            }
+
+            .gallery-thumbnail {
+                width: 60px;
+                height: 60px;
+            }
+
+            .gallery-main {
+                order: 1;
+                min-height: 350px;
+            }
+
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .related-products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .tabs-header {
+                flex-wrap: wrap;
+            }
+
+            .tab-button {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container nav-container">
+            <div style="display: flex; align-items: center;">
+                <a href="index.html" class="logo">Apex<span>Sports</span></a>
+                <ul class="nav-links" style="margin-left: 3rem;">
+                    <li><a href="index.html">Trang chủ</a></li>
+                    <li><a href="category.html?type=men">Nam</a></li>
+                    <li><a href="category.html?type=women">Nữ</a></li>
+                    <li><a href="category.html?type=shoes">Giày</a></li>
+                    <li><a href="category.html?type=accessories">Phụ kiện</a></li>
+                </ul>
+            </div>
+            <div class="nav-right">
+                <div class="search-box">
+                    <span class="search-icon-inside">🔍</span>
+                    <input type="text" id="searchInput" placeholder="Tìm sản phẩm...">
+                </div>
+                <div class="auth-buttons">
+                    <a href="login.html">Đăng nhập</a> <span style="color: #444;">|</span> <a href="register.html">Đăng ký</a>
+                </div>
+                <a href="cart.html" class="cart-icon">🛒 <span class="cart-count">0</span></a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <div class="container">
+            <a href="index.html">Trang chủ</a> > 
+            <a href="" id="categoryBreadcrumb">Danh mục</a> > 
+            <span id="productBreadcrumb">Sản phẩm</span>
+        </div>
+    </div>
+
+    <!-- Product Detail -->
+    <div class="container product-detail-wrapper" style="padding: 2rem 0;">
+        
+        <!-- LEFT: Product Gallery -->
+        <div class="product-gallery-section">
+            <div class="gallery-main" id="galleryMain">
+                <img src="https://via.placeholder.com/600x600?text=Loading..." alt="Product Image" id="mainImage">
+                <button class="gallery-nav gallery-prev" id="prevBtn">&lt;</button>
+                <button class="gallery-nav gallery-next" id="nextBtn">&gt;</button>
+            </div>
+        </div>
+
+        <!-- RIGHT: Product Info -->
+        <div class="product-info-section">
+            <!-- Product Name & Meta -->
+            <h1 id="productName">Đang tải tên sản phẩm...</h1>
+            
+            <div class="product-meta">
+                <div class="rating-section">
+                    <div class="stars-container" id="starsContainer">
+                        <span class="star" data-rating="1">☆</span>
+                        <span class="star" data-rating="2">☆</span>
+                        <span class="star" data-rating="3">☆</span>
+                        <span class="star" data-rating="4">☆</span>
+                        <span class="star" data-rating="5">☆</span>
+                    </div>
+                    <span class="rating-info" id="ratingInfo">(<span id="ratingCount">0</span> đánh giá)</span>
+                </div>
+                <span id="productCategory">Category</span>
+            </div>
+
+            <!-- Price Section -->
+            <div class="product-price-section">
+                <div class="price-row">
+                    <span class="price-label">Giá bán:</span>
+                    <span class="price-current" id="productPrice">₫2,090,000</span>
+                    <span class="discount-badge" id="discountBadge" style="display: none;"></span>
+                </div>
+                <div class="price-row" id="originalPriceRow" style="display: none;">
+                    <span class="price-label">Giá thường:</span>
+                    <span class="price-original" id="productOriginalPrice">₫4,180,000</span>
+                </div>
+            </div>
+
+            <!-- Size Selector -->
+            <div class="size-selector">
+                <label class="size-label">Chọn Size:</label>
+                <div class="size-options" id="sizeOptions"></div>
+            </div>
+
+            <!-- Quantity Selector -->
+            <div class="quantity-selector">
+                <span class="quantity-label">Số lượng:</span>
+                <div class="quantity-input">
+                    <button id="qtyMinus">−</button>
+                    <input type="number" id="quantity" value="1" min="1">
+                    <button id="qtyPlus">+</button>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons-section">
+                <button class="btn-primary" id="addToCartBtn">🛒 THÊM VÀO GIỎ</button>
+                <button class="btn-like" id="addToWishlistBtn">❤</button>
+            </div>
+
+            <!-- Benefits -->
+            <div class="benefits-section">
+                <div class="benefits-grid">
+                    <div class="benefit-item">
+                        <div class="benefit-icon">📦</div>
+                        <div class="benefit-text">Đóng gói cẩn thận, dùng hộp riêng</div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">✓</div>
+                        <div class="benefit-text">Miễn phí đổi hàng trong 07 ngày</div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">🚚</div>
+                        <div class="benefit-text">Giao hàng chuyên nghiệp toàn quốc</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Promo -->
+            <div style="background: var(--bg-secondary); padding: 15px; border-radius: 4px; border-left: 4px solid var(--accent-green); margin-bottom: 2rem;">
+                <div style="font-weight: 700; color: var(--text-light); margin-bottom: 5px;">🎁 Miễn phí vận chuyển</div>
+                <div style="font-size: 0.9rem; color: var(--text-gray);">Với đơn hàng trên 200,000đ</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabs Section -->
+    <div class="container tabs-section">
+        <div class="tabs-header">
+            <button class="tab-button active" data-tab="description">MỤC TẢ</button>
+            <button class="tab-button" data-tab="policy">CHÍNH SÁCH THƯƠNG MUA</button>
+            <button class="tab-button" data-tab="shipping">CHÍNH SÁCH CÓ TẶC</button>
+        </div>
+
+        <div class="tab-content active" id="description">
+            <h3>Mô tả sản phẩm</h3>
+            <p>Giày thể thao chính hãng từ ApexSports, được thiết kế với công nghệ thoáng khí tiên tiến, chất liệu cao cấp giúp bạn thoải mái vận động ở cường độ cao.</p>
+            <p><strong>Đặc điểm nổi bật:</strong></p>
+            <ul style="margin-left: 20px; color: #666;">
+                <li>Chất liệu cao cấp, bền bỉ</li>
+                <li>Công nghệ đệm hơi tiên tiến</li>
+                <li>Kiểu dáng hiện đại, thời trang</li>
+                <li>Phù hợp cho tất cả các hoạt động</li>
+            </ul>
+        </div>
+
+        <div class="tab-content" id="policy">
+            <h3>Chính sách thương mua</h3>
+            <p>Chúng tôi cam kết cung cấp sản phẩm chính hãng 100% từ các nhà sản xuất uy tín.</p>
+            <p><strong>Quyền lợi khách hàng:</strong></p>
+            <ul style="margin-left: 20px; color: #666;">
+                <li>Hoàn tiền 100% nếu sản phẩm giả</li>
+                <li>Đổi sản phẩm miễn phí trong 7 ngày</li>
+                <li>Hỗ trợ khách hàng 24/7</li>
+            </ul>
+        </div>
+
+        <div class="tab-content" id="shipping">
+            <h3>Chính sách giao hàng</h3>
+            <p>Chúng tôi hỗ trợ giao hàng toàn quốc với nhiều lựa chọn vận chuyển.</p>
+            <p><strong>Thời gian giao hàng:</strong></p>
+            <ul style="margin-left: 20px; color: #666;">
+                <li>TP.HCM, Hà Nội: 1-2 ngày</li>
+                <li>Các tỉnh: 2-5 ngày</li>
+                <li>Vùng sâu: 5-7 ngày</li>
+                <li>Miễn phí ship với đơn trên 200,000đ</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Related Products Section -->
+    <div class="container related-products-section">
+        <h2>SẢN PHẨM LIÊN QUAN</h2>
+        <div class="related-products-grid" id="relatedProducts">
+            <!-- Related products will be loaded here -->
+        </div>
+    </div>
+
+    <footer>
+        <div class="container footer-grid">
+            <div class="footer-col">
+                <a href="#" class="logo" style="font-size: 1.8rem; display:block; margin-bottom: 1rem;">Apex<span>Sports</span></a>
+                <p style="color: #888; margin-bottom: 1rem;">Thương hiệu đồ thể thao hàng đầu dành cho những người không bao giờ bỏ cuộc.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Mua sắm</h4>
+                <ul>
+                    <li><a href="men.html">Đồ nam</a></li>
+                    <li><a href="women.html">Đồ nữ</a></li>
+                    <li><a href="accessories.html">Phụ kiện</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Hỗ trợ</h4>
+                <ul>
+                    <li><a href="#">Theo dõi đơn hàng</a></li>
+                    <li><a href="#">Chính sách đổi trả</a></li>
+                    <li><a href="#">Liên hệ</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Kết nối với chúng tôi</h4>
+                <ul>
+                    <li><a href="#">Facebook</a></li>
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">Zalo</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2026 Apex Sports Inc. All rights reserved.
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script>
+        let currentProduct = null;
+        let allProducts = [];
+        let selectedSize = null;
+        let selectedColor = null;
+        let currentImageIndex = 0;
+        let productImages = [];
+        let currentSizeOptions = [];
+        let currentColorOptions = [];
+        let currentRating = 0;
+        let userRating = 0;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateUserNav();
+            updateCartCount();
+            loadProductDetail();
+            setupEventListeners();
+            loadAllProducts();
+            setupRatingStars();
+        });
+
+        function loadProductDetail() {
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get('id');
+            
+            if (!id) {
+                alert('Không tìm thấy ID sản phẩm');
+                return;
+            }
+
+            fetch(`/api/products/${id}`)
+                .then(res => res.ok ? res.json() : Promise.reject('Product not found'))
+                .then(product => {
+                    currentProduct = product;
+                    updateProductDisplay(product);
+                    generateProductImages(product);
+                    loadRelatedProducts(product.category);
+                    loadProductRatings(product.id);
+                })
+                .catch(err => {
+                    console.error('Lỗi:', err);
+                    alert('Không thể tải chi tiết sản phẩm');
+                });
+        }
+
+        function generateProductImages(product) {
+            // Tạo các hình ảnh khác nhau dựa trên một ảnh gốc
+            productImages = [
+                product.image,
+                'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=400&fit=crop',
+                'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=400&fit=crop&crop=faces',
+                'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=400&fit=crop'
+            ];
+
+            displayGallery();
+        }
+
+        function displayGallery() {
+            // Main image
+            document.getElementById('mainImage').src = productImages[currentImageIndex];
+        }
+
+        function selectImage(idx) {
+            currentImageIndex = idx;
+            document.getElementById('mainImage').src = productImages[idx];
+        }
+
+        function updateProductDisplay(product) {
+            document.getElementById('productName').textContent = product.name;
+            document.getElementById('productPrice').textContent = formatMoney(product.price);
+            document.getElementById('productCategory').textContent = product.category;
+            document.getElementById('productBreadcrumb').textContent = product.name;
+            
+            // Hiển thị discount badge và giá gốc nếu có giảm giá
+            const discountBadge = document.getElementById('discountBadge');
+            const originalPriceRow = document.getElementById('originalPriceRow');
+            const originalPriceEl = document.getElementById('productOriginalPrice');
+            
+            if (product.discountPercent && product.discountPercent > 0) {
+                // Có giảm giá - hiển thị badge và giá gốc
+                discountBadge.textContent = `-${product.discountPercent}%`;
+                discountBadge.style.display = 'inline-block';
+                
+                // Tính giá gốc từ giá sale và % giảm
+                const originalPrice = Math.round(product.price / (1 - product.discountPercent / 100));
+                originalPriceEl.textContent = formatMoney(originalPrice);
+                originalPriceRow.style.display = 'flex';
+            } else {
+                // Không giảm giá - ẩn badge và giá gốc
+                discountBadge.style.display = 'none';
+                originalPriceRow.style.display = 'none';
+            }
+            
+            // Map category to type for category.html
+            const cat = (product.category || '').toLowerCase();
+            let typeParam = 'accessories';
+            if (cat.includes("men's") || cat.startsWith('men ')) typeParam = 'men';
+            else if (cat.includes("women's") || cat.startsWith('women ')) typeParam = 'women';
+            else if (cat.includes('shoes')) typeParam = 'shoes';
+            document.getElementById('categoryBreadcrumb').href = 'category.html?type=' + typeParam;
+
+            renderSizeOptions(product);
+            updateDescriptionTab(product);
+            updateColorsAndSpecs(product);
+        }
+
+        function updateDescriptionTab(product) {
+            const descTab = document.getElementById('description');
+            let descHTML = `<h3>Mô tả sản phẩm</h3>`;
+            
+            if (product.description) {
+                descHTML += `<p>${product.description}</p>`;
+            }
+            
+            // Add specifications
+            if (product.specs) {
+                descHTML += `<p><strong>Thông số kỹ thuật:</strong></p><ul style="margin-left: 20px; color: var(--text-gray);">`;
+                for (const [key, value] of Object.entries(product.specs)) {
+                    descHTML += `<li>${key.replace(/_/g, ' ')}: ${value}</li>`;
+                }
+                descHTML += `</ul>`;
+            }
+            
+            // Add material
+            if (product.material) {
+                descHTML += `<p><strong>Chất liệu:</strong> ${product.material}</p>`;
+            }
+            
+            descTab.innerHTML = descHTML;
+        }
+
+        function updateColorsAndSpecs(product) {
+            // Remove existing specs container if any
+            const existingSpecs = document.getElementById('product-specs-container');
+            if (existingSpecs) {
+                existingSpecs.remove();
+            }
+
+            currentColorOptions = product.colors || [];
+            selectedColor = null;
+
+            const specsContainer = document.createElement('div');
+            specsContainer.id = 'product-specs-container';
+            specsContainer.style.cssText = 'background: var(--bg-secondary); padding: 15px; border-radius: 4px; margin-bottom: 1.5rem;';
+            
+            let specsHTML = '';
+            
+            // Colors - Interactive selector
+            if (product.colors && product.colors.length > 0) {
+                specsHTML += `<div style="margin-bottom: 15px;">
+                    <div style="font-weight: 600; margin-bottom: 8px; color: var(--text-light);">Chọn màu sắc:</div>
+                    <div id="colorOptionsContainer" style="display: flex; gap: 8px; flex-wrap: wrap;"></div>
+                </div>`;
+            }
+            
+            // Material
+            if (product.material) {
+                specsHTML += `<div>
+                    <div style="font-weight: 600; margin-bottom: 8px; color: var(--text-light);">Chất liệu:</div>
+                    <div style="color: var(--text-gray);">${product.material}</div>
+                </div>`;
+            }
+            
+            if (specsHTML) {
+                specsContainer.innerHTML = specsHTML;
+                // Insert before benefits section
+                const benefitsSection = document.querySelector('.benefits-section');
+                benefitsSection.parentNode.insertBefore(specsContainer, benefitsSection);
+                
+                // Render color buttons after container is in DOM
+                renderColorOptions(product.colors);
+            }
+        }
+
+        function renderColorOptions(colors) {
+            if (!colors || colors.length === 0) return;
+            
+            const container = document.getElementById('colorOptionsContainer');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            colors.forEach((color, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'color-btn';
+                btn.textContent = color;
+                btn.style.cssText = `
+                    padding: 8px 16px;
+                    border: 2px solid var(--border-color);
+                    background: var(--bg-main);
+                    border-radius: 4px;
+                    cursor: pointer;
+                    transition: all 0.3s;
+                    font-weight: 600;
+                    color: var(--text-light);
+                `;
+                
+                btn.addEventListener('click', () => {
+                    // Remove active from all
+                    document.querySelectorAll('.color-btn').forEach(b => {
+                        b.style.background = 'var(--bg-main)';
+                        b.style.color = 'var(--text-light)';
+                        b.style.borderColor = 'var(--border-color)';
+                    });
+                    
+                    // Set active
+                    btn.style.background = 'var(--text-light)';
+                    btn.style.color = 'var(--text-dark)';
+                    btn.style.borderColor = 'var(--text-light)';
+                    selectedColor = color;
+                });
+                
+                btn.addEventListener('mouseenter', () => {
+                    if (selectedColor !== color) {
+                        btn.style.borderColor = 'var(--text-light)';
+                    }
+                });
+                
+                btn.addEventListener('mouseleave', () => {
+                    if (selectedColor !== color) {
+                        btn.style.borderColor = 'var(--border-color)';
+                    }
+                });
+                
+                container.appendChild(btn);
+                
+                // Auto-select first color
+                if (idx === 0) {
+                    btn.click();
+                }
+            });
+        }
+
+        function getSizeOptions(category) {
+            const cat = (category || '').toLowerCase();
+
+            // Giày dép: size số EU
+            if (cat.includes('shoes') || cat.includes('cleats') || cat.includes('sneaker')) {
+                return ['36', '37', '38', '39', '40', '41', '42', '43'];
+            }
+
+            // Quần áo: size chữ
+            if (cat.includes("men's") || cat.includes("women's") || cat.includes('training') || cat.includes('running') || cat.includes('lifestyle') || cat.includes('sports')) {
+                return ['S', 'M', 'L', 'XL'];
+            }
+
+            // Phụ kiện: không có size
+            return [];
+        }
+
+        function renderSizeOptions(product) {
+            const sizeWrapper = document.querySelector('.size-selector');
+            const sizeContainer = document.getElementById('sizeOptions');
+            const sizes = getSizeOptions(product.category);
+
+            currentSizeOptions = sizes;
+            selectedSize = null;
+
+            sizeContainer.innerHTML = '';
+
+            if (!sizes.length) {
+                sizeWrapper.style.display = 'none';
+                return;
+            }
+
+            sizeWrapper.style.display = 'block';
+
+            sizes.forEach((size, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'size-btn';
+                btn.textContent = size;
+                btn.setAttribute('data-size', size);
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    selectedSize = size;
+                });
+                sizeContainer.appendChild(btn);
+                if (idx === 0) {
+                    btn.classList.add('active');
+                    selectedSize = size;
+                }
+            });
+        }
+
+        function setupEventListeners() {
+            // Quantity
+            document.getElementById('qtyPlus').addEventListener('click', () => {
+                const input = document.getElementById('quantity');
+                input.value = parseInt(input.value) + 1;
+            });
+
+            document.getElementById('qtyMinus').addEventListener('click', () => {
+                const input = document.getElementById('quantity');
+                if (parseInt(input.value) > 1) {
+                    input.value = parseInt(input.value) - 1;
+                }
+            });
+
+            // Add to cart
+            document.getElementById('addToCartBtn').addEventListener('click', () => {
+                if (!currentProduct) {
+                    alert('Vui lòng chờ sản phẩm tải xong');
+                    return;
+                }
+                if (currentSizeOptions.length > 0 && !selectedSize) {
+                    alert('Vui lòng chọn size');
+                    return;
+                }
+                if (currentColorOptions.length > 0 && !selectedColor) {
+                    alert('Vui lòng chọn màu sắc');
+                    return;
+                }
+                const qty = parseInt(document.getElementById('quantity').value);
+                addToCart(currentProduct, qty, selectedSize, selectedColor);
+            });
+
+            // Add to wishlist
+            document.getElementById('addToWishlistBtn').addEventListener('click', function() {
+                this.style.color = this.style.color === 'var(--accent-red)' ? '#000' : 'var(--accent-red)';
+            });
+
+            // Tab buttons
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const tabName = btn.getAttribute('data-tab');
+                    document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                    btn.classList.add('active');
+                    document.getElementById(tabName).classList.add('active');
+                });
+            });
+
+            // Gallery nav
+            document.getElementById('nextBtn').addEventListener('click', () => {
+                currentImageIndex = (currentImageIndex + 1) % productImages.length;
+                selectImage(currentImageIndex);
+            });
+
+            document.getElementById('prevBtn').addEventListener('click', () => {
+                currentImageIndex = (currentImageIndex - 1 + productImages.length) % productImages.length;
+                selectImage(currentImageIndex);
+            });
+        }
+
+        function loadAllProducts() {
+            fetch('/api/products')
+                .then(res => res.json())
+                .then(products => {
+                    allProducts = products;
+                })
+                .catch(err => console.error('Error loading products:', err));
+        }
+
+        function loadRelatedProducts(category) {
+            const related = allProducts.filter(p => p.category === category && p.id !== currentProduct?.id).slice(0, 5);
+            
+            const container = document.getElementById('relatedProducts');
+            container.innerHTML = '';
+
+            if (related.length === 0) {
+                container.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">Không có sản phẩm liên quan</p>';
+                return;
+            }
+
+            related.forEach(product => {
+                const discount = Math.floor(Math.random() * 40) + 10;
+                const card = document.createElement('div');
+                card.className = 'product-card-home';
+                card.style.cssText = 'background: var(--bg-secondary); border-radius: 8px; overflow: hidden; cursor: pointer;';
+                card.innerHTML = `
+                    <a href="product-detail.html?id=${product.id}" style="display: block; position: relative;">
+                        <img src="${product.image}" alt="${product.name}" style="width: 100%; height: 200px; object-fit: cover;">
+                        <span class="discount-tag" style="position: absolute; top: 10px; right: 10px; background: var(--accent-red); color: #fff; padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 700;">-${discount}%</span>
+                    </a>
+                    <div style="padding: 12px;">
+                        <h3 style="font-size: 0.9rem; margin-bottom: 8px; color: var(--text-light);">${product.name}</h3>
+                        <div style="font-size: 1rem; font-weight: 700; color: var(--accent-green); margin-bottom: 4px;">${formatMoney(product.price)}</div>
+                        <div style="text-decoration: line-through; color: var(--text-gray); font-size: 0.8rem;">${formatMoney(Math.round(product.price * 1.5))}</div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Select first size by default
+        window.addEventListener('load', () => {
+            const firstSize = document.querySelector('.size-btn');
+            if (firstSize) {
+                firstSize.click();
+            }
+        });
+
+        // === RATING SYSTEM ===
+        function setupRatingStars() {
+            const stars = document.querySelectorAll('.star');
+            const container = document.getElementById('starsContainer');
+            
+            stars.forEach((star, index) => {
+                // Hover effect
+                star.addEventListener('mouseenter', () => {
+                    highlightStars(index + 1, true);
+                });
+                
+                // Click to rate
+                star.addEventListener('click', () => {
+                    submitRating(index + 1);
+                });
+            });
+            
+            // Remove hover when leaving container
+            container.addEventListener('mouseleave', () => {
+                displayAverageRating();
+            });
+        }
+        
+        function highlightStars(count, isHover = false) {
+            const stars = document.querySelectorAll('.star');
+            stars.forEach((star, index) => {
+                star.classList.remove('filled', 'hover');
+                if (index < count) {
+                    star.classList.add(isHover ? 'hover' : 'filled');
+                    star.textContent = '★';
+                } else {
+                    star.textContent = '☆';
+                }
+            });
+        }
+        
+        function displayAverageRating() {
+            const stars = document.querySelectorAll('.star');
+            const roundedRating = Math.round(currentRating * 2) / 2; // Round to nearest 0.5
+            
+            stars.forEach((star, index) => {
+                star.classList.remove('filled', 'half-filled', 'hover');
+                
+                if (index < Math.floor(roundedRating)) {
+                    // Full star
+                    star.classList.add('filled');
+                    star.textContent = '★';
+                } else if (index < roundedRating) {
+                    // Half star
+                    star.classList.add('half-filled');
+                    star.textContent = '★';
+                } else {
+                    // Empty star
+                    star.textContent = '☆';
+                }
+            });
+        }
+        
+        function loadProductRatings(productId) {
+            fetch(`/api/ratings/product/${productId}`)
+                .then(res => res.json())
+                .then(data => {
+                    currentRating = data.averageRating || 0;
+                    userRating = data.userRating || 0;
+                    document.getElementById('ratingCount').textContent = data.ratingCount || 0;
+                    displayAverageRating();
+                })
+                .catch(err => {
+                    console.error('Error loading ratings:', err);
+                });
+        }
+        
+        function submitRating(rating) {
+            if (!currentProduct) {
+                alert('Vui lòng chờ sản phẩm tải xong');
+                return;
+            }
+            
+            // Check if user is logged in
+            const user = localStorage.getItem('user');
+            if (!user) {
+                alert('Vui lòng đăng nhập để đánh giá sản phẩm');
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            fetch('/api/ratings/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    productId: currentProduct.id.toString(),
+                    rating: rating
+                })
+            })
+            .then(res => {
+                if (res.status === 401) {
+                    alert('Vui lòng đăng nhập để đánh giá sản phẩm');
+                    window.location.href = 'login.html';
+                    return Promise.reject('Unauthorized');
+                }
+                return res.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    currentRating = data.averageRating;
+                    userRating = rating;
+                    document.getElementById('ratingCount').textContent = data.ratingCount;
+                    displayAverageRating();
+                } else {
+                    alert(data.error || 'Có lỗi xảy ra khi đánh giá');
+                }
+            })
+            .catch(err => {
+                if (err !== 'Unauthorized') {
+                    console.error('Error submitting rating:', err);
+                    alert('Có lỗi xảy ra khi đánh giá');
+                }
+            });
+        }
+    </script>
+</html>

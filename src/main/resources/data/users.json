@@ -1,0 +1,31 @@
+[ {
+  "id" : 3,
+  "firstName" : "Nguyễn",
+  "lastName" : "Khang",
+  "email" : "khangfa1997@gmail.com",
+  "phone" : "0342302353",
+  "password" : "asdasd123",
+  "avatar" : "https://ui-avatars.com/api/?name=Nguyễn+Khang&background=00ff66&color=000",
+  "address" : null,
+  "createdAt" : 1769200674059
+}, {
+  "id" : 1,
+  "firstName" : "Apex",
+  "lastName" : "Store",
+  "email" : "admin@apexsports.com",
+  "phone" : "0123456789",
+  "password" : "123456",
+  "avatar" : "https://ui-avatars.com/api/?name=Apex+Store&background=00ff66&color=000",
+  "address" : null,
+  "createdAt" : 1769200447198
+}, {
+  "id" : 2,
+  "firstName" : "Admin",
+  "lastName" : "Thiện",
+  "email" : "thien123",
+  "phone" : "0987654321",
+  "password" : "123456",
+  "avatar" : "https://ui-avatars.com/api/?name=Admin+Thiện&background=00ff66&color=000",
+  "address" : null,
+  "createdAt" : 1769200447198
+} ]

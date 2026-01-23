@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apex Sports - Tìm kiếm</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Layout đơn cột cho trang tìm kiếm */
+        .search-layout { padding: 3rem 0; }
+        /* Lưới sản phẩm */
+        .product-grid-search { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container nav-container">
+            <div style="display: flex; align-items: center;">
+                <a href="index.html" class="logo">Apex<span>Sports</span></a>
+                <ul class="nav-links" style="margin-left: 3rem;">
+                    <li><a href="index.html">Trang chủ</a></li>
+                    <li><a href="category.html?type=men">Nam</a></li>
+                    <li><a href="category.html?type=women">Nữ</a></li>
+                    <li><a href="category.html?type=shoes">Giày</a></li>
+                    <li><a href="category.html?type=accessories">Phụ kiện</a></li>
+                </ul>
+            </div>
+
+            <div class="nav-right">
+                <div class="search-box">
+                    <span class="search-icon-inside">🔍</span>
+                    <input type="text" id="searchInput" placeholder="Tìm sản phẩm...">
+                </div>
+                
+                <div class="auth-buttons">
+                    <a href="login.html">Đăng nhập</a>
+                    <span style="color: #444;">|</span>
+                    <a href="register.html">Đăng ký</a>
+                </div>
+
+                <a href="cart.html" class="cart-icon">🛒 <span class="cart-count">0</span></a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="flex-center" style="padding: 2rem 0; border-bottom: 1px solid #333;">
+            <div style="width:100%">
+                <h2 id="pageTitle" style="text-transform: uppercase;">Tìm kiếm sản phẩm</h2>
+                <p id="resultCount" style="color: var(--text-gray);">Nhập từ khóa để xem kết quả</p>
+                <div id="quickFilters" style="margin-top: 10px; display:flex; gap:10px; flex-wrap:wrap;">
+                    <a href="search.html?sale=1" style="border:1px solid #333; padding:6px 12px; border-radius:20px; color:#ddd;">Giảm giá</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="search-layout">
+            <div class="product-list-area">
+                <div class="product-grid-search">
+                    <!-- Kết quả tìm kiếm sẽ được render bằng JavaScript -->
+                </div>
+                
+                <!-- Pagination -->
+                <div id="paginationContainer" style="display:none; margin-top:30px; text-align:center;">
+                    <button id="prevPage" style="padding:10px 20px; margin:0 5px; border:1px solid #333; background:#0b0b0b; color:#ddd; border-radius:6px; cursor:pointer;">&lt; Trước</button>
+                    <span id="pageInfo" style="margin:0 15px; color:var(--text-gray);"></span>
+                    <button id="nextPage" style="padding:10px 20px; margin:0 5px; border:1px solid #333; background:#0b0b0b; color:#ddd; border-radius:6px; cursor:pointer;">Sau &gt;</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/script.js"></script>
+    <script>
+        let searchResults = [];
+        let searchCurrentPage = 1;
+        const productsPerPage = 12;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateUserNav();
+            updateCartCount();
+            handleSearchBox();
+            loadSearchResults();
+        });
+
+        function computeDiscountPercent(p) {
+            // Deterministic discount based on category + id
+            const idMod = (parseInt(p.id, 10) || 0) % 10;
+            let base = 0;
+            const cat = (p.category || '').toLowerCase();
+            if (cat.includes('shoes')) base = 20;
+            else if (cat.startsWith("women")) base = 18;
+            else if (cat.startsWith("men")) base = 15;
+            else if (cat.startsWith("accessories")) base = 10;
+            else base = 12;
+            const percent = Math.min(50, base + (idMod));
+            return percent;
+        }
+        function renderSaleResults(products) {
+            const pageTitle = document.getElementById('pageTitle');
+            const resultCount = document.getElementById('resultCount');
+            pageTitle.textContent = 'Sản phẩm giảm giá';
+
+            // Filter only discounted
+            const discounted = products.filter(p => (p.discountPercent || 0) > 0);
+            if (!discounted.length) {
+                document.querySelector('.product-grid-search').innerHTML = '<h3 style="grid-column:1/-1;text-align:center;color:#777;">Không có sản phẩm giảm giá</h3>';
+                document.getElementById('paginationContainer').style.display = 'none';
+                return;
+            }
+
+            // Sort by discount % desc
+            const withDiscount = discounted.map(p => {
+                const d = p.discountPercent || 0;
+                const oldPrice = Math.round(p.price / (1 - d/100));
+                return { ...p, _discount: d, _oldPrice: oldPrice };
+            }).sort((a,b) => b._discount - a._discount);
+            
+            searchResults = withDiscount;
+            searchCurrentPage = 1;
+            resultCount.textContent = `Tìm thấy ${withDiscount.length} sản phẩm đang giảm giá`;
+            renderSalePage();
+        }
+
+        function renderSalePage() {
+            const startIdx = (searchCurrentPage - 1) * productsPerPage;
+            const endIdx = startIdx + productsPerPage;
+            const pageProducts = searchResults.slice(startIdx, endIdx);
+            const totalPages = Math.ceil(searchResults.length / productsPerPage);
+            
+            const container = document.querySelector('.product-grid-search');
+
+            container.style.gridTemplateColumns = 'repeat(3, 1fr)';
+            container.innerHTML = '';
+            pageProducts.forEach(p => {
+                container.innerHTML += `
+                    <div class="product-card" style="box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: relative;">
+                        <a href="product-detail.html?id=${p.id}" style="display:block;height:260px;overflow:hidden; position: relative;">
+                            <img src="${p.image}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover; transition: transform 0.5s ease;" onerror="this.src='https://placehold.co/300x300'">
+                            <span class="discount-tag" style="position:absolute;top:10px;right:10px;background:var(--accent-red);color:#fff;padding:4px 8px;border-radius:4px;font-size:0.8rem;font-weight:700;">-${p._discount}%</span>
+                        </a>
+                        <div class="product-info" style="padding: 15px;">
+                            <p class="category" style="font-size:0.75rem;color:#888;text-transform:uppercase;margin-bottom:5px;">${p.category}</p>
+                            <h3 style="font-size:1.05rem;margin:5px 0;height:45px;overflow:hidden;line-height:1.4;">${p.name}</h3>
+                            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;">
+                                <div>
+                                    <p class="price" style="font-weight:bold;color:var(--accent-green);font-size:1.1rem;margin:0;">${formatMoney(p.price)}</p>
+                                    <p class="old-price" style="text-decoration:line-through;color:#666;font-size:0.9rem;margin:0;">${formatMoney(p._oldPrice)}</p>
+                                </div>
+                                <a href="product-detail.html?id=${p.id}" style="font-size:1.2rem;color:var(--accent-green);">→</a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            setupCartButtonListeners();
+            updatePagination(totalPages);
+        }
+
+        function loadSearchResults() {
+            const params = new URLSearchParams(window.location.search);
+            const query = params.get('q');
+            const sale = params.get('sale');
+
+            if (sale === '1') {
+                // Load all products then render sale mode
+                fetch(`/api/products`)
+                    .then(res => res.json())
+                    .then(products => renderSaleResults(products))
+                    .catch(err => {
+                        console.error('Lỗi tải sản phẩm giảm giá:', err);
+                        document.querySelector('.product-grid-search').innerHTML = 
+                            '<h3 style="grid-column:1/-1;text-align:center;color:#777;">Có lỗi khi tải sản phẩm giảm giá</h3>';
+                    });
+                return;
+            }
+
+            if (!query) {
+                const container = document.querySelector('.product-grid-search');
+                const pageTitle = document.getElementById('pageTitle');
+                const resultCount = document.getElementById('resultCount');
+
+                pageTitle.textContent = 'Tìm kiếm sản phẩm';
+                resultCount.textContent = 'Nhập từ khóa để xem kết quả';
+                container.innerHTML = '<h3 style="grid-column:1/-1;text-align:center;color:#777;">Nhập từ khóa tìm kiếm để hiển thị sản phẩm</h3>';
+                return;
+            }
+
+            fetch(`/api/products/search?q=${encodeURIComponent(query)}`)
+                .then(res => res.json())
+                .then(products => {
+                    searchResults = products;
+                    renderSearchResults(query, products);
+                })
+                .catch(err => {
+                    console.error('Lỗi tìm kiếm:', err);
+                    document.querySelector('.product-grid-search').innerHTML = 
+                        '<h3 style="grid-column:1/-1;text-align:center;color:#777;">Có lỗi khi tìm kiếm</h3>';
+                });
+        }
+
+        function renderProducts(products) {
+            const container = document.querySelector('.product-grid-search');
+            container.style.gridTemplateColumns = 'repeat(3, 1fr)';
+            container.innerHTML = '';
+
+            products.forEach(p => {
+                const discount = p.discountPercent || 0;
+                const discountBadge = discount > 0 
+                    ? `<span class="discount-tag" style="position:absolute;top:10px;left:10px;background:var(--accent-red);color:#fff;padding:4px 8px;border-radius:4px;font-size:0.8rem;font-weight:700;z-index:5;">-${discount}%</span>` 
+                    : '';
+                
+                container.innerHTML += `
+                    <div class="product-card" style="box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: relative;">
+                        <a href="product-detail.html?id=${p.id}" style="display:block;height:260px;overflow:hidden; position: relative;">
+                            <img src="${p.image}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover; transition: transform 0.5s ease;" onerror="this.src='https://placehold.co/300x300'">
+                            ${discountBadge}
+                        </a>
+                        <div style="position: absolute; top: 10px; right: 10px; z-index: 10;">
+                            <button class="btn-quick-add" data-id="${p.id}" data-name="${p.name}" data-price="${p.price}" data-image="${p.image}" data-category="${p.category}"
+                                    style="background: var(--accent-green); color: black; border: none; width: 50px; height: 50px; border-radius: 50%; font-size: 1.5rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s; box-shadow: 0 4px 12px rgba(0, 255, 102, 0.3); padding: 0;">
+                                🛒
+                            </button>
+                        </div>
+                        <div class="product-info" style="padding: 15px;">
+                            <p class="category" style="font-size:0.75rem;color:#888;text-transform:uppercase;margin-bottom:5px;">${p.category}</p>
+                            <h3 style="font-size:1.05rem;margin:5px 0;height:45px;overflow:hidden;line-height:1.4;">${p.name}</h3>
+                            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;">
+                                <p class="price" style="font-weight:bold;color:#111;font-size:1.1rem;">${formatMoney(p.price)}</p>
+                                <a href="product-detail.html?id=${p.id}" style="font-size:1.2rem;color:var(--accent-green);">→</a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            setupCartButtonListeners();
+        }
+
+        function renderSearchResults(query, products) {
+            const pageTitle = document.getElementById('pageTitle');
+            const resultCount = document.getElementById('resultCount');
+
+            // Update tiêu đề
+            pageTitle.textContent = `Kết quả tìm kiếm: "${query}"`;
+            resultCount.textContent = `Tìm thấy ${products.length} sản phẩm`;
+
+            if (products.length === 0) {
+                document.querySelector('.product-grid-search').innerHTML = '<h3 style="grid-column:1/-1;text-align:center;color:#777;">Không tìm thấy sản phẩm phù hợp</h3>';
+                document.getElementById('paginationContainer').style.display = 'none';
+                return;
+            }
+
+            searchResults = products;
+            searchCurrentPage = 1;
+            renderSearchPage();
+        }
+
+        function renderSearchPage() {
+            const startIdx = (searchCurrentPage - 1) * productsPerPage;
+            const endIdx = startIdx + productsPerPage;
+            const pageProducts = searchResults.slice(startIdx, endIdx);
+            const totalPages = Math.ceil(searchResults.length / productsPerPage);
+            
+            renderProducts(pageProducts);
+            updatePagination(totalPages);
+        }
+
+        function updatePagination(totalPages) {
+            const paginationContainer = document.getElementById('paginationContainer');
+            const prevBtn = document.getElementById('prevPage');
+            const nextBtn = document.getElementById('nextPage');
+            const pageInfo = document.getElementById('pageInfo');
+            
+            if (totalPages > 1) {
+                paginationContainer.style.display = 'block';
+                pageInfo.textContent = `Trang ${searchCurrentPage} / ${totalPages}`;
+                prevBtn.disabled = searchCurrentPage === 1;
+                nextBtn.disabled = searchCurrentPage === totalPages;
+                prevBtn.style.opacity = searchCurrentPage === 1 ? '0.5' : '1';
+                nextBtn.style.opacity = searchCurrentPage === totalPages ? '0.5' : '1';
+            } else {
+                paginationContainer.style.display = 'none';
+            }
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Pagination button handlers
+        document.getElementById('prevPage').addEventListener('click', () => {
+            if (searchCurrentPage > 1) {
+                searchCurrentPage--;
+                const params = new URLSearchParams(window.location.search);
+                if (params.get('sale') === '1') {
+                    renderSalePage();
+                } else {
+                    renderSearchPage();
+                }
+            }
+        });
+
+        document.getElementById('nextPage').addEventListener('click', () => {
+            const totalPages = Math.ceil(searchResults.length / productsPerPage);
+            if (searchCurrentPage < totalPages) {
+                searchCurrentPage++;
+                const params = new URLSearchParams(window.location.search);
+                if (params.get('sale') === '1') {
+                    renderSalePage();
+                } else {
+                    renderSearchPage();
+                }
+            }
+        });
+
+        function setupCartButtonListeners() {
+            document.querySelectorAll('.btn-quick-add').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const id = btn.dataset.id;
+                    const name = btn.dataset.name;
+                    const price = parseFloat(btn.dataset.price);
+                    const image = btn.dataset.image;
+                    const category = btn.dataset.category;
+                    
+                    quickAddToCart(id, name, price, image, category, btn);
+                });
+            });
+        }
+
+        function quickAddToCart(id, name, price, image, category, button) {
+            // Hiển thị dialog chọn size
+            const sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
+            const sizeOptions = sizes.map(s => `<button style="padding:8px 12px; margin:5px; border:1px solid #ddd; background:white; cursor:pointer; border-radius:4px;" onclick="selectSize('${s}', ${id}, '${name}', ${price}, '${image}', '${category}')">${s}</button>`).join('');
+            
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5);
+                display: flex; align-items: center; justify-content: center; z-index: 9999;
+            `;
+            modal.innerHTML = `
+                <div style="background:white; padding:30px; border-radius:8px; text-align:center; max-width:400px;">
+                    <h3 style="margin-top:0;">Chọn kích thước cho ${name}</h3>
+                    <div>${sizeOptions}</div>
+                    <button onclick="this.parentElement.parentElement.remove()" style="margin-top:15px; padding:8px 20px; background:#ddd; border:none; cursor:pointer; border-radius:4px;">Hủy</button>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+
+        window.selectSize = function(size, id, name, price, image, category) {
+            const product = { id, name, price, image, category };
+            addToCart(product, 1, size);
+            // Đóng modal
+            document.querySelectorAll('div').forEach(d => {
+                if (d.style.background && d.style.background.includes('rgba')) {
+                    d.remove();
+                }
+            });
+        };
+    </script>
+</body>
+</html>
