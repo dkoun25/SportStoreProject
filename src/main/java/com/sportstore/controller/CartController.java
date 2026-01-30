@@ -111,8 +111,7 @@ public class CartController {
         
         // Giả lập xử lý thanh toán
         if (!cart.isEmpty()) {
-            // TODO: Lưu đơn hàng vào database
-            // TODO: Gọi API thanh toán (VNPay, Paypal, etc.)
+  
             cartService.checkout(sessionId);
         }
 

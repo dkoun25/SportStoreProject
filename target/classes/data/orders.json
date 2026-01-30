@@ -1,25 +1,25 @@
 [ {
   "id" : 1,
-  "sessionId" : "12603F471BE23E9B782DD6C2B9D95FE1",
+  "sessionId" : "1B416EBF18A2B7143C5F614513774E4A",
   "userEmail" : "khangfa1997@gmail.com",
   "items" : [ {
-    "id" : 15,
-    "name" : "Quần Nén Tập Luyện",
+    "id" : 6,
+    "name" : "Giày Jordan One Low",
     "category" : "men",
-    "price" : 900000.0,
-    "image" : "https://img.lazcdn.com/g/p/db77492d10e2faa5a4580035e4746f9a.png_720x720q80.png",
+    "price" : 4500000.0,
+    "image" : "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=500&q=80",
     "quantity" : 1,
     "size" : null,
-    "color" : "Đen",
-    "addedDate" : 1769702095128,
+    "color" : "Đôi Đen",
+    "addedDate" : 1769796930274,
     "discountPercent" : null,
-    "subtotal" : 900000.0
+    "subtotal" : 4500000.0
   } ],
-  "subtotal" : 900000.0,
+  "subtotal" : 4500000.0,
   "shipping" : 0.0,
   "discount" : 0.0,
-  "total" : 990000.0,
+  "total" : 4950000.0,
   "promoCode" : null,
-  "createdAt" : 1769702097146,
+  "createdAt" : 1769796932804,
   "status" : "completed"
 } ]
