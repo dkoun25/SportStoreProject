@@ -731,30 +731,18 @@
 
         console.log('=== CART PAGE DEBUG ===');
 
-// Sửa loadCartFromAPI để có log:
-function loadCartFromAPI() {
-    console.log('Loading cart from API...');
-    fetch(CART_API_URL, { credentials: 'include' })
-        .then(res => {
-            console.log('Cart response status:', res.status);
-            return res.json();
-        })
-        .then(cartResponse => {
-            console.log('Cart data:', cartResponse);
-            updateCartDisplay(cartResponse);
-        })
-        .catch(err => {
-            console.error('Lỗi khi tải giỏ hàng:', err);
-            showErrorMessage('Không thể tải giỏ hàng. Vui lòng thử lại.');
-        });
-}
         /**
          * Lấy dữ liệu giỏ hàng từ Backend API
          */
         function loadCartFromAPI() {
+            console.log('Loading cart from API...');
             fetch(CART_API_URL, { credentials: 'include' })
-                .then(res => res.json())
+                .then(res => {
+                    console.log('Cart response status:', res.status);
+                    return res.json();
+                })
                 .then(cartResponse => {
+                    console.log('Cart data:', cartResponse);
                     updateCartDisplay(cartResponse);
                 })
                 .catch(err => {
@@ -764,7 +752,7 @@ function loadCartFromAPI() {
         }
 
         /**
-         * Hiển thị giỏ hàng lên giao diện
+         * Hiển thị giỏ hàng lên giao diện - FIXED VERSION
          */
         function updateCartDisplay(cartResponse) {
     const container = document.getElementById('cartItemsContainer');
@@ -788,62 +776,101 @@ function loadCartFromAPI() {
     // XÓA innerHTML cũ hoàn toàn
     container.innerHTML = '';
     
-    // Tạo từng cart item bằng DOM thay vì innerHTML
+    // Tạo từng cart item bằng DOM
     items.forEach((item) => {
         const cartItemDiv = document.createElement('div');
         cartItemDiv.className = 'cart-item';
-        cartItemDiv.setAttribute('data-product-id', item.id);
-        cartItemDiv.setAttribute('data-size', item.size || '');
-        cartItemDiv.setAttribute('data-color', item.color || '');
         
-        cartItemDiv.innerHTML = `
-            <div class="cart-item-image">
-                <img src="${item.image}" alt="${item.name}" onerror="this.src='https://placehold.co/100x100'">
-            </div>
-            <div class="cart-item-details">
-                <div class="item-info">
-                    <div>
-                        <div class="item-name">${item.name}</div>
-                        <div class="item-category">${item.category}</div>
-                        ${item.size ? `<div class="item-size">Size: <strong>${item.size}</strong></div>` : ''}
-                        ${item.color ? `<div class="item-color">Màu: <strong>${item.color}</strong></div>` : ''}
-                    </div>
-                    <div class="item-price">${formatMoney(item.price)}</div>
-                    <div class="item-actions">
-                        <div class="quantity-control">
-                            <button class="btn-decrease">−</button>
-                            <input type="number" value="${item.quantity}" readonly>
-                            <button class="btn-increase">+</button>
-                        </div>
-                        <button class="btn-remove">✕</button>
-                    </div>
-                </div>
-            </div>
+        // Tạo cấu trúc HTML
+        const itemImage = document.createElement('div');
+        itemImage.className = 'cart-item-image';
+        itemImage.innerHTML = `<img src="${item.image}" alt="${item.name}" onerror="this.src='https://placehold.co/100x100'">`;
+        
+        const itemDetails = document.createElement('div');
+        itemDetails.className = 'cart-item-details';
+        
+        const itemInfo = document.createElement('div');
+        itemInfo.className = 'item-info';
+        
+        const infoContent = document.createElement('div');
+        infoContent.innerHTML = `
+            <div class="item-name">${item.name}</div>
+            <div class="item-category">${item.category}</div>
+            ${item.size ? `<div class="item-size">Size: <strong>${item.size}</strong></div>` : ''}
+            ${item.color ? `<div class="item-color">Màu: <strong>${item.color}</strong></div>` : ''}
         `;
         
-        // Gắn event listeners bằng addEventListener thay vì onclick
-        const btnDecrease = cartItemDiv.querySelector('.btn-decrease');
-        const btnIncrease = cartItemDiv.querySelector('.btn-increase');
-        const btnRemove = cartItemDiv.querySelector('.btn-remove');
+        const itemPrice = document.createElement('div');
+        itemPrice.className = 'item-price';
+        itemPrice.textContent = formatMoney(item.price);
         
-        btnDecrease.addEventListener('click', (e) => {
+        const itemActions = document.createElement('div');
+        itemActions.className = 'item-actions';
+        
+        // Tạo quantity control
+        const quantityControl = document.createElement('div');
+        quantityControl.className = 'quantity-control';
+        
+        const btnDecrease = document.createElement('button');
+        btnDecrease.className = 'btn-decrease';
+        btnDecrease.textContent = '−';
+        btnDecrease.type = 'button';
+        
+        const inputQuantity = document.createElement('input');
+        inputQuantity.type = 'number';
+        inputQuantity.value = item.quantity;
+        inputQuantity.readOnly = true;
+        
+        const btnIncrease = document.createElement('button');
+        btnIncrease.className = 'btn-increase';
+        btnIncrease.textContent = '+';
+        btnIncrease.type = 'button';
+        
+        quantityControl.appendChild(btnDecrease);
+        quantityControl.appendChild(inputQuantity);
+        quantityControl.appendChild(btnIncrease);
+        
+        const btnRemove = document.createElement('button');
+        btnRemove.className = 'btn-remove';
+        btnRemove.textContent = '✕';
+        btnRemove.type = 'button';
+        
+        itemActions.appendChild(quantityControl);
+        itemActions.appendChild(btnRemove);
+        
+        // CRITICAL FIX: Use closure to capture correct values
+        const currentItemId = item.id;
+        const currentItemSize = item.size || '';
+        const currentItemQuantity = item.quantity;
+        
+        btnDecrease.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
-            updateQuantityAPI(item.id, item.size || '', item.quantity - 1);
+            console.log('Decrease clicked:', currentItemId, currentItemSize, 'from', currentItemQuantity);
+            updateQuantityAPI(currentItemId, currentItemSize, currentItemQuantity - 1);
         });
         
-        btnIncrease.addEventListener('click', (e) => {
+        btnIncrease.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
-            updateQuantityAPI(item.id, item.size || '', item.quantity + 1);
+            console.log('Increase clicked:', currentItemId, currentItemSize, 'from', currentItemQuantity);
+            updateQuantityAPI(currentItemId, currentItemSize, currentItemQuantity + 1);
         });
         
-        btnRemove.addEventListener('click', (e) => {
+        btnRemove.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
-            removeItemAPI(item.id, item.size || '');
+            console.log('Remove clicked:', currentItemId, currentItemSize);
+            removeItemAPI(currentItemId, currentItemSize);
         });
         
+        // Ghép các phần tử lại
+        itemInfo.appendChild(infoContent);
+        itemInfo.appendChild(itemPrice);
+        itemInfo.appendChild(itemActions);
+        itemDetails.appendChild(itemInfo);
+        cartItemDiv.appendChild(itemImage);
+        cartItemDiv.appendChild(itemDetails);
         container.appendChild(cartItemDiv);
     });
 
@@ -854,36 +881,39 @@ function loadCartFromAPI() {
          * Cập nhật summary (tóm tắt tiền)
          */
         function updateSummary(cartResponse) {
-    const subtotal = cartResponse.subtotal || 0;
-    const shipping = cartResponse.shipping || 0;
-    let total = cartResponse.total || 0;
-    
-    document.getElementById('subtotal').textContent = formatMoney(subtotal);
-    document.getElementById('shipping').textContent = 
-        (shipping === 0 ? 'Miễn phí' : formatMoney(shipping));
-    
-    // Hiển thị giảm giá nếu có
-    const discountRow = document.getElementById('discountRow');
-    if (promoDiscountAmount > 0) {
-        discountRow.style.display = 'flex';
-        document.getElementById('discount').textContent = '- ' + formatMoney(promoDiscountAmount);
-        // Tính lại tổng tiền sau giảm giá
-        total = subtotal + shipping - promoDiscountAmount;
-        document.getElementById('total').textContent = formatMoney(total);
-    } else {
-        discountRow.style.display = 'none';
-        document.getElementById('total').textContent = formatMoney(total);
-    }
+            const subtotal = cartResponse.subtotal || 0;
+            const shipping = cartResponse.shipping || 0;
+            let total = cartResponse.total || 0;
+            
+            document.getElementById('subtotal').textContent = formatMoney(subtotal);
+            document.getElementById('shipping').textContent = 
+                (shipping === 0 ? 'Miễn phí' : formatMoney(shipping));
+            
+            // Hiển thị giảm giá nếu có
+            const discountRow = document.getElementById('discountRow');
+            if (promoDiscountAmount > 0) {
+                discountRow.style.display = 'flex';
+                document.getElementById('discount').textContent = '- ' + formatMoney(promoDiscountAmount);
+                // Tính lại tổng tiền sau giảm giá
+                total = subtotal + shipping - promoDiscountAmount;
+                document.getElementById('total').textContent = formatMoney(total);
+            } else {
+                discountRow.style.display = 'none';
+                document.getElementById('total').textContent = formatMoney(total);
+            }
 
-    const checkoutBtn = document.getElementById('checkoutBtn');
-    checkoutBtn.disabled = (cartResponse.items || []).length === 0;
-}
+            const checkoutBtn = document.getElementById('checkoutBtn');
+            checkoutBtn.disabled = (cartResponse.items || []).length === 0;
+        }
 
         /**
          * Cập nhật số lượng sản phẩm qua API
          */
         function updateQuantityAPI(productId, size, newQuantity) {
-    console.log('Update quantity:', productId, size, newQuantity);
+    console.log('=== UPDATE QUANTITY API ===');
+    console.log('Product ID:', productId);
+    console.log('Size:', size);
+    console.log('New Quantity:', newQuantity);
     
     if (newQuantity <= 0) {
         removeItemAPI(productId, size);
@@ -891,6 +921,7 @@ function loadCartFromAPI() {
     }
 
     const url = `${CART_API_URL}/update/${productId}?quantity=${newQuantity}&size=${encodeURIComponent(size || '')}`;
+    console.log('API URL:', url);
     
     fetch(url, { 
         method: 'PUT', 
@@ -908,27 +939,33 @@ function loadCartFromAPI() {
     })
     .then(cartResponse => {
         console.log('Update response data:', cartResponse);
+        console.log('Items count after update:', cartResponse.items.length);
+        
+        // FORCE UPDATE UI
         updateCartDisplay(cartResponse);
         showSuccessMessage('Đã cập nhật số lượng');
     })
     .catch(err => {
         console.error('Lỗi cập nhật:', err);
         showErrorMessage('Không thể cập nhật số lượng');
-        // Reload để đồng bộ
         setTimeout(() => loadCartFromAPI(), 500);
     });
 }
 
-
-      
+        /**
+         * Xóa item khỏi giỏ
+         */
         function removeItemAPI(productId, size) {
-    console.log('Remove item:', productId, size);
+    console.log('=== REMOVE ITEM API ===');
+    console.log('Product ID:', productId);
+    console.log('Size:', size);
     
     if (!confirm('Bạn chắc chắn muốn xóa sản phẩm này?')) {
         return;
     }
 
     const url = `${CART_API_URL}/remove/${productId}?size=${encodeURIComponent(size || '')}`;
+    console.log('API URL:', url);
     
     fetch(url, { 
         method: 'DELETE', 
@@ -952,7 +989,6 @@ function loadCartFromAPI() {
     .catch(err => {
         console.error('Lỗi xóa:', err);
         showErrorMessage('Không thể xóa sản phẩm');
-        // Reload để đồng bộ
         setTimeout(() => loadCartFromAPI(), 500);
     });
 }
@@ -1025,13 +1061,6 @@ function loadCartFromAPI() {
         }
 
         /**
-         * Áp dụng mã khuyến mãi (legacy - giữ để tương thích)
-         */
-        function applyPromo() {
-            validatePromo();
-        }
-
-        /**
          * Xử lý thanh toán
          */
         function handleCheckout() {
@@ -1042,28 +1071,49 @@ function loadCartFromAPI() {
         return;
     }
 
-    // Kiểm tra đăng nhập
-    const user = JSON.parse(localStorage.getItem('user'));
-    if (!user || !user.email) {
-        alert('Vui lòng đăng nhập để thanh toán');
-        window.location.href = 'login.html';
-        return;
-    }
-
-    const total = document.getElementById('total').textContent;
-    const promoText = validatedPromoCode ? ` (Đã áp dụng mã ${validatedPromoCode})` : '';
+    // CRITICAL: Sync session before checkout
+    console.log('=== CHECKOUT: Checking auth ===');
     
-    if (confirm(`Tiến hành thanh toán với tổng tiền: ${total}${promoText}?`)) {
-        const body = validatedPromoCode ? JSON.stringify({ promoCode: validatedPromoCode }) : '{}';
-        
-        fetch('/api/orders/checkout', { 
-            method: 'POST',
-            credentials: 'include',
-            headers: { 'Content-Type': 'application/json' },
-            body: body
-        })
+    fetch('/api/auth/me', { credentials: 'include' })
         .then(res => res.json())
         .then(data => {
+            console.log('Auth check result:', data);
+            
+            if (!data.success || !data.user || !data.user.email) {
+                alert('Vui lòng đăng nhập lại để thanh toán');
+                window.location.href = 'login.html';
+                return Promise.reject('Not authenticated');
+            }
+            
+            console.log('User authenticated:', data.user.email);
+            
+            // User authenticated, proceed with checkout
+            const total = document.getElementById('total').textContent;
+            const promoText = validatedPromoCode ? ` (Đã áp dụng mã ${validatedPromoCode})` : '';
+            
+            if (!confirm(`Tiến hành thanh toán với tổng tiền: ${total}${promoText}?`)) {
+                return Promise.reject('User cancelled');
+            }
+            
+            const body = validatedPromoCode ? JSON.stringify({ promoCode: validatedPromoCode }) : '{}';
+            
+            return fetch('/api/orders/checkout', { 
+                method: 'POST',
+                credentials: 'include',
+                headers: { 'Content-Type': 'application/json' },
+                body: body
+            });
+        })
+        .then(res => {
+            if (!res || res === 'User cancelled' || res === 'Not authenticated') {
+                return;
+            }
+            return res.json();
+        })
+        .then(data => {
+            if (!data) return;
+            
+            console.log('Order created:', data);
             alert(`✓ Thanh toán thành công!\nMã đơn hàng: #${data.id}\nTổng tiền: ${formatMoney(data.total)}`);
             
             validatedPromoCode = null;
@@ -1076,10 +1126,11 @@ function loadCartFromAPI() {
             loadOrderHistory(0);
         })
         .catch(err => {
-            console.error('Lỗi thanh toán:', err);
-            alert('Thanh toán thất bại. Vui lòng thử lại.');
+            if (err !== 'User cancelled' && err !== 'Not authenticated') {
+                console.error('Lỗi thanh toán:', err);
+                alert('Thanh toán thất bại. Vui lòng thử lại.');
+            }
         });
-    }
 }
 
         /**
@@ -1135,15 +1186,22 @@ function loadCartFromAPI() {
         }
 
         /**
-         * Tải lịch sử đơn hàng (phân trang)
+         * Tải lịch sử đơn hàng (phân trang) - FIXED VERSION
          */
         function loadOrderHistory(page = 0) {
             currentOrderPage = page;
             const pageSize = 5;
             
+            console.log('=== LOADING ORDER HISTORY ===');
+            console.log('Page:', page);
+            
             fetch(`/api/orders/history?page=${page}&size=${pageSize}`, { credentials: 'include' })
-                .then(res => res.json())
+                .then(res => {
+                    console.log('Order history response status:', res.status);
+                    return res.json();
+                })
                 .then(data => {
+                    console.log('Order history data:', data);
                     renderOrderHistory(data);
                 })
                 .catch(err => {
@@ -1175,7 +1233,7 @@ function loadCartFromAPI() {
             container.innerHTML = orders.map((order, index) => {
                 const orderDate = new Date(order.createdAt).toLocaleString('vi-VN');
                 const itemCount = order.items.length;
-                const firstItems = order.items.slice(0, 6); // Hiển thị 6 sản phẩm đầu
+                const firstItems = order.items.slice(0, 6);
                 const hasMore = itemCount > 6;
                 const orderId = `order-${order.id}`;
                 
@@ -1272,14 +1330,12 @@ function loadCartFromAPI() {
             const toggleBtn = document.getElementById(`${orderId}-toggle`);
             
             if (all.style.display === 'none') {
-                // Hiển thị tất cả
                 preview.style.display = 'none';
                 all.style.display = 'grid';
                 toggleBtn.innerHTML = 'Thu gọn ▲';
                 toggleBtn.style.background = 'var(--accent-green)';
                 toggleBtn.style.color = '#000';
             } else {
-                // Thu gọn
                 preview.style.display = 'grid';
                 all.style.display = 'none';
                 const itemCount = all.children.length;
@@ -1293,108 +1349,123 @@ function loadCartFromAPI() {
          * Hiển thị chi tiết đơn hàng trong modal
          */
         function showOrderDetail(orderId) {
-            fetch(`/api/orders/${orderId}`, { credentials: 'include' })
-                .then(res => res.json())
-                .then(order => {
-                    const modal = document.getElementById('orderDetailModal');
-                    const modalTitle = document.getElementById('modalOrderTitle');
-                    const modalBody = document.getElementById('modalOrderBody');
-                    
-                    const orderDate = new Date(order.createdAt).toLocaleString('vi-VN');
-                    const statusBadge = order.status === 'completed' ? '<span style="background: var(--accent-green); color: #000; padding: 4px 10px; border-radius: 4px; font-size: 0.8rem; font-weight: 700;">HOÀN THÀNH</span>' : 
-                                       order.status === 'pending' ? '<span style="background: #ffa500; color: #000; padding: 4px 10px; border-radius: 4px; font-size: 0.8rem; font-weight: 700;">ĐANG XỬ LÝ</span>' : 
-                                       '<span style="background: #ff3b30; color: #fff; padding: 4px 10px; border-radius: 4px; font-size: 0.8rem; font-weight: 700;">ĐÃ HỦY</span>';
-                    
-                    modalTitle.innerHTML = `Chi tiết đơn hàng #${order.id}`;
-                    
-                    modalBody.innerHTML = `
-                        <!-- Order Information -->
-                        <div class="order-detail-section">
-                            <h3>Thông tin đơn hàng</h3>
-                            <div class="order-info-grid">
-                                <div class="order-info-item">
-                                    <div class="order-info-label">Mã đơn hàng</div>
-                                    <div class="order-info-value">#${order.id}</div>
-                                </div>
-                                <div class="order-info-item">
-                                    <div class="order-info-label">Trạng thái</div>
-                                    <div class="order-info-value">${statusBadge}</div>
-                                </div>
-                                <div class="order-info-item">
-                                    <div class="order-info-label">Thời gian đặt hàng</div>
-                                    <div class="order-info-value">${orderDate}</div>
-                                </div>
-                                <div class="order-info-item">
-                                    <div class="order-info-label">Số lượng sản phẩm</div>
-                                    <div class="order-info-value">${order.items.length} sản phẩm</div>
-                                </div>
-                                ${order.promoCode ? `
-                                <div class="order-info-item">
-                                    <div class="order-info-label">Mã giảm giá</div>
-                                    <div class="order-info-value" style="color: var(--accent-green);">${order.promoCode}</div>
-                                </div>
-                                ` : ''}
+    console.log('=== SHOW ORDER DETAIL ===');
+    console.log('Order ID:', orderId);
+    
+    fetch(`/api/orders/${orderId}`, { credentials: 'include' })
+        .then(res => {
+            console.log('Order detail response status:', res.status);
+            
+            if (res.status === 404) {
+                throw new Error('Không tìm thấy đơn hàng');
+            }
+            if (!res.ok) {
+                throw new Error('Lỗi tải đơn hàng: ' + res.status);
+            }
+            return res.json();
+        })
+        .then(order => {
+            console.log('Order detail:', order);
+            
+            const modal = document.getElementById('orderDetailModal');
+            const modalTitle = document.getElementById('modalOrderTitle');
+            const modalBody = document.getElementById('modalOrderBody');
+            
+            const orderDate = new Date(order.createdAt).toLocaleString('vi-VN');
+            const statusBadge = order.status === 'completed' ? '<span style="background: var(--accent-green); color: #000; padding: 4px 10px; border-radius: 4px; font-size: 0.8rem; font-weight: 700;">HOÀN THÀNH</span>' : 
+                               order.status === 'pending' ? '<span style="background: #ffa500; color: #000; padding: 4px 10px; border-radius: 4px; font-size: 0.8rem; font-weight: 700;">ĐANG XỬ LÝ</span>' : 
+                               '<span style="background: #ff3b30; color: #fff; padding: 4px 10px; border-radius: 4px; font-size: 0.8rem; font-weight: 700;">ĐÃ HỦY</span>';
+            
+            modalTitle.innerHTML = `Chi tiết đơn hàng #${order.id}`;
+            
+            modalBody.innerHTML = `
+                <!-- Order Information -->
+                <div class="order-detail-section">
+                    <h3>Thông tin đơn hàng</h3>
+                    <div class="order-info-grid">
+                        <div class="order-info-item">
+                            <div class="order-info-label">Mã đơn hàng</div>
+                            <div class="order-info-value">#${order.id}</div>
+                        </div>
+                        <div class="order-info-item">
+                            <div class="order-info-label">Trạng thái</div>
+                            <div class="order-info-value">${statusBadge}</div>
+                        </div>
+                        <div class="order-info-item">
+                            <div class="order-info-label">Thời gian đặt hàng</div>
+                            <div class="order-info-value">${orderDate}</div>
+                        </div>
+                        <div class="order-info-item">
+                            <div class="order-info-label">Số lượng sản phẩm</div>
+                            <div class="order-info-value">${order.items.length} sản phẩm</div>
+                        </div>
+                        ${order.promoCode ? `
+                        <div class="order-info-item">
+                            <div class="order-info-label">Mã giảm giá</div>
+                            <div class="order-info-value" style="color: var(--accent-green);">${order.promoCode}</div>
+                        </div>
+                        ` : ''}
+                    </div>
+                </div>
+
+                <!-- Order Items -->
+                <div class="order-detail-section">
+                    <h3>Sản phẩm đã mua (${order.items.length})</h3>
+                    ${order.items.map(item => `
+                        <div class="order-item-card">
+                            <img src="${item.image}" alt="${item.name}" onerror="this.src='https://placehold.co/80x80'">
+                            <div class="order-item-details">
+                                <div class="order-item-name">${item.name}</div>
+                                <div class="order-item-meta">Danh mục: ${item.category}</div>
+                                ${item.size ? `<div class="order-item-meta">Size: ${item.size}</div>` : ''}
+                                ${item.color ? `<div class="order-item-meta">Màu: ${item.color}</div>` : ''}
+                                <div class="order-item-meta">Số lượng: x${item.quantity}</div>
                             </div>
-                        </div>
-
-                        <!-- Order Items -->
-                        <div class="order-detail-section">
-                            <h3>Sản phẩm đã mua (${order.items.length})</h3>
-                            ${order.items.map(item => `
-                                <div class="order-item-card">
-                                    <img src="${item.image}" alt="${item.name}" onerror="this.src='https://placehold.co/80x80'">
-                                    <div class="order-item-details">
-                                        <div class="order-item-name">${item.name}</div>
-                                        <div class="order-item-meta">Danh mục: ${item.category}</div>
-                                        ${item.size ? `<div class="order-item-meta">Size: ${item.size}</div>` : ''}
-                                        ${item.color ? `<div class="order-item-meta">Màu: ${item.color}</div>` : ''}
-                                        <div class="order-item-meta">Số lượng: x${item.quantity}</div>
-                                    </div>
-                                    <div class="order-item-price">
-                                        <div class="order-item-total">${formatMoney(item.price * item.quantity)}</div>
-                                        <div style="font-size: 0.8rem; color: var(--text-gray); margin-top: 3px;">
-                                            ${formatMoney(item.price)} × ${item.quantity}
-                                        </div>
-                                    </div>
-                                </div>
-                            `).join('')}
-                        </div>
-
-                        <!-- Order Summary -->
-                        <div class="order-detail-section">
-                            <h3>Tổng kết thanh toán</h3>
-                            <div style="background: #262626; padding: 20px; border-radius: 8px;">
-                                <div style="display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 0.95rem;">
-                                    <span style="color: var(--text-gray);">Tạm tính:</span>
-                                    <span style="color: var(--text-light); font-weight: 600;">${formatMoney(order.subtotal)}</span>
-                                </div>
-                                <div style="display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 0.95rem;">
-                                    <span style="color: var(--text-gray);">Phí vận chuyển:</span>
-                                    <span style="color: var(--text-light); font-weight: 600;">
-                                        ${order.shipping === 0 ? 'Miễn phí' : formatMoney(order.shipping)}
-                                    </span>
-                                </div>
-                                ${order.discount > 0 ? `
-                                <div style="display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 0.95rem; color: var(--accent-green);">
-                                    <span>Giảm giá ${order.promoCode ? '(' + order.promoCode + ')' : ''}:</span>
-                                    <span style="font-weight: 600;">- ${formatMoney(order.discount)}</span>
-                                </div>
-                                ` : ''}
-                                <div style="border-top: 1px solid #3a3a3a; padding-top: 12px; margin-top: 12px; display: flex; justify-content: space-between; font-size: 1.2rem; font-weight: 700;">
-                                    <span style="color: var(--text-light);">Tổng cộng:</span>
-                                    <span style="color: var(--accent-green); font-size: 1.4rem;">${formatMoney(order.total)}</span>
+                            <div class="order-item-price">
+                                <div class="order-item-total">${formatMoney(item.price * item.quantity)}</div>
+                                <div style="font-size: 0.8rem; color: var(--text-gray); margin-top: 3px;">
+                                    ${formatMoney(item.price)} × ${item.quantity}
                                 </div>
                             </div>
                         </div>
-                    `;
-                    
-                    modal.classList.add('active');
-                })
-                .catch(err => {
-                    console.error('Lỗi tải chi tiết đơn hàng:', err);
-                    alert('Không thể tải chi tiết đơn hàng');
-                });
-        }
+                    `).join('')}
+                </div>
+
+                <!-- Order Summary -->
+                <div class="order-detail-section">
+                    <h3>Tổng kết thanh toán</h3>
+                    <div style="background: #262626; padding: 20px; border-radius: 8px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 0.95rem;">
+                            <span style="color: var(--text-gray);">Tạm tính:</span>
+                            <span style="color: var(--text-light); font-weight: 600;">${formatMoney(order.subtotal)}</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 0.95rem;">
+                            <span style="color: var(--text-gray);">Phí vận chuyển:</span>
+                            <span style="color: var(--text-light); font-weight: 600;">
+                                ${order.shipping === 0 ? 'Miễn phí' : formatMoney(order.shipping)}
+                            </span>
+                        </div>
+                        ${order.discount > 0 ? `
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 0.95rem; color: var(--accent-green);">
+                            <span>Giảm giá ${order.promoCode ? '(' + order.promoCode + ')' : ''}:</span>
+                            <span style="font-weight: 600;">- ${formatMoney(order.discount)}</span>
+                        </div>
+                        ` : ''}
+                        <div style="border-top: 1px solid #3a3a3a; padding-top: 12px; margin-top: 12px; display: flex; justify-content: space-between; font-size: 1.2rem; font-weight: 700;">
+                            <span style="color: var(--text-light);">Tổng cộng:</span>
+                            <span style="color: var(--accent-green); font-size: 1.4rem;">${formatMoney(order.total)}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            modal.classList.add('active');
+        })
+        .catch(err => {
+            console.error('Lỗi tải chi tiết đơn hàng:', err);
+            alert('Không thể tải chi tiết đơn hàng: ' + err.message);
+        });
+}
 
         /**
          * Đóng modal chi tiết đơn hàng
@@ -1420,48 +1491,62 @@ function loadCartFromAPI() {
         });
 
         /**
-         * Khởi tạo khi trang load
+         * Khởi tạo khi trang load - FIXED VERSION
          */
         document.addEventListener('DOMContentLoaded', () => {
-    // Đồng bộ session và localStorage
-    fetch('/api/auth/me', { credentials: 'include' })
+    console.log('=== CART PAGE INITIALIZATION ===');
+    
+    // CRITICAL: Sync session with localStorage user
+    const user = JSON.parse(localStorage.getItem('user'));
+    
+    if (user && user.email) {
+        console.log('Found user in localStorage:', user.email);
+        
+        // Sync session with backend
+        fetch('/api/auth/sync-session', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: user.email })
+        })
         .then(res => res.json())
         .then(data => {
-            if (data.success && data.user) {
-                localStorage.setItem('user', JSON.stringify(data.user));
-                // Set lại session attribute nếu cần
-                fetch('/api/auth/sync-session', {
-                    method: 'POST',
-                    credentials: 'include',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email: data.user.email })
-                }).catch(err => console.log('Sync session error:', err));
+            console.log('Session sync result:', data);
+            
+            if (data.success && data.synced) {
+                console.log('✓ Session synced successfully');
             }
+            
+            // Update UI and load data
             updateUserNav();
             loadOrderHistory(0);
         })
         .catch(err => {
-            console.log('Không thể kiểm tra session:', err);
-            // Fallback: dùng localStorage
-            const user = JSON.parse(localStorage.getItem('user'));
-            if (user && user.email) {
-                // Thử sync session từ localStorage
-                fetch('/api/auth/sync-session', {
-                    method: 'POST',
-                    credentials: 'include',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email: user.email })
-                }).then(() => {
-                    updateUserNav();
-                    loadOrderHistory(0);
-                }).catch(e => {
-                    console.log('Cannot sync:', e);
-                    updateUserNav();
-                });
-            } else {
-                updateUserNav();
-            }
+            console.error('Cannot sync session:', err);
+            updateUserNav();
+            loadOrderHistory(0);
         });
+    } else {
+        console.log('No user in localStorage, checking session...');
+        
+        // Check if session has user
+        fetch('/api/auth/me', { credentials: 'include' })
+            .then(res => res.json())
+            .then(data => {
+                console.log('Auth check:', data);
+                if (data.success && data.user) {
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    console.log('User logged in:', data.user.email);
+                }
+                updateUserNav();
+                loadOrderHistory(0);
+            })
+            .catch(err => {
+                console.log('Not logged in');
+                updateUserNav();
+                loadOrderHistory(0);
+            });
+    }
     
     loadCartFromAPI();
     
@@ -1479,9 +1564,6 @@ function loadCartFromAPI() {
             if (cartCount) cartCount.textContent = count;
         });
 });
-
-        // Refresh cart mỗi 30 giây (tùy chọn)
-        // setInterval(() => loadCartFromAPI(), 30000);
     </script>
 </body>
 </html>
