@@ -5,6 +5,7 @@ import com.sportstore.model.CartResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Service quản lý giỏ hàng
@@ -17,7 +18,7 @@ public class CartService {
      * Lưu trữ giỏ hàng theo session ID (key: sessionId, value: danh sách CartItem)
      * Trong thực tế, nên dùng Redis hoặc Database
      */
-    private Map<String, List<CartItem>> cartStorage = new HashMap<>();
+    private Map<String, List<CartItem>> cartStorage = new ConcurrentHashMap<>();
 
     /**
      * Lấy giỏ hàng của một session

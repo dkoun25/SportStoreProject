@@ -246,11 +246,43 @@ public class OrderService {
     }
     
     /**
+     * Lấy lịch sử đơn hàng theo userEmail (phân trang)
+     */
+    public List<Order> getOrderHistoryByEmail(String userEmail, int page, int pageSize) {
+        System.out.println("OrderService: Looking for orders with email: " + userEmail);
+        System.out.println("OrderService: Total orders in memory: " + orders.size());
+        
+        // Debug: liệt kê tất cả orders
+        orders.values().forEach(o -> {
+            System.out.println("  - Order #" + o.getId() + " | email: " + o.getUserEmail() + " | sessionId: " + o.getSessionId());
+        });
+        
+        List<Order> result = orders.values().stream()
+                .filter(order -> userEmail.equals(order.getUserEmail()))
+                .sorted((o1, o2) -> Long.compare(o2.getCreatedAt(), o1.getCreatedAt())) // Mới nhất trước
+                .skip((long) page * pageSize)
+                .limit(pageSize)
+                .collect(Collectors.toList());
+        
+        System.out.println("OrderService: Found " + result.size() + " orders for email: " + userEmail);
+        return result;
+    }
+    
+    /**
      * Đếm tổng số đơn hàng của session
      */
     public long countOrders(String sessionId) {
         return orders.values().stream()
                 .filter(order -> order.getSessionId().equals(sessionId))
+                .count();
+    }
+    
+    /**
+     * Đếm tổng số đơn hàng theo userEmail
+     */
+    public long countOrdersByEmail(String userEmail) {
+        return orders.values().stream()
+                .filter(order -> userEmail.equals(order.getUserEmail()))
                 .count();
     }
     

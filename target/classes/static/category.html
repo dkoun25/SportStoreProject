@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apex Sports - Danh mục</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .category-layout { display: grid; grid-template-columns: 280px 1fr; gap: 32px; padding: 2rem 0 3rem; }
+        .filter-card { background: #111; border: 1px solid #222; border-radius: 12px; padding: 16px 18px; }
+        .filter-card h3 { margin: 0 0 12px; font-size: 1rem; letter-spacing: 0.5px; }
+        .filter-section { border-top: 1px solid #222; padding-top: 14px; margin-top: 14px; }
+        .filter-section:first-of-type { border-top: none; padding-top: 0; margin-top: 0; }
+        .filter-option { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; cursor: pointer; color: var(--text-gray); }
+        .filter-option input { accent-color: var(--accent-green); }
+        .chip-row { display: flex; flex-wrap: wrap; gap: 8px; }
+        .chip { border: 1px solid #333; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.9rem; color: #ddd; }
+        .chip.active { border-color: var(--accent-green); color: var(--accent-green); }
+        .color-dot { width: 14px; height: 14px; border-radius: 50%; border: 1px solid #333; }
+        .sort-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .sort-select { padding: 10px 14px; border: 1px solid #222; border-radius: 8px; background: #0b0b0b; color: #eee; }
+        .product-grid-search { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        @media (max-width: 992px) { .category-layout { grid-template-columns: 1fr; } .product-grid-search { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 640px) { .product-grid-search { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container nav-container">
+            <div style="display: flex; align-items: center;">
+                <a href="index.html" class="logo">Apex<span>Sports</span></a>
+                <ul class="nav-links" style="margin-left: 3rem;">
+                    <li><a href="index.html">Trang chủ</a></li>
+                    <li><a href="category.html?type=men">Nam</a></li>
+                    <li><a href="category.html?type=women">Nữ</a></li>
+                    <li><a href="category.html?type=accessories">Phụ kiện</a></li>
+                </ul>
+            </div>
+
+            <div class="nav-right">
+                <div class="search-box">
+                    <span class="search-icon-inside">🔍</span>
+                    <input type="text" id="searchInput" placeholder="Tìm sản phẩm...">
+                </div>
+                
+                <div class="auth-buttons">
+                    <a href="login.html">Đăng nhập</a>
+                    <span style="color: #444;">|</span>
+                    <a href="register.html">Đăng ký</a>
+                </div>
+
+                <a href="cart.html" class="cart-icon">🛒 <span class="cart-count">0</span></a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="flex-center" style="padding: 1.5rem 0 0.5rem; border-bottom: 1px solid #222;">
+            <div>
+                <p style="color: var(--text-gray); margin: 0; font-size: 0.95rem;" id="breadcrumb">Danh mục</p>
+                <h2 id="categoryTitle" style="margin: 4px 0 6px; text-transform: uppercase;">Danh mục sản phẩm</h2>
+                <p id="resultCount" style="color: var(--text-gray); margin: 0;">Đang tải...</p>
+            </div>
+        </div>
+
+        <div class="category-layout">
+            <aside class="filter-card">
+                <div class="filter-section">
+                    <h3>Danh mục</h3>
+                    <label class="filter-option"><input type="radio" name="group" value="men"> Nam</label>
+                    <label class="filter-option"><input type="radio" name="group" value="women"> Nữ</label>
+                    <label class="filter-option"><input type="radio" name="group" value="accessories"> Phụ kiện</label>
+                    <label class="filter-option"><input type="radio" name="group" value="" checked> Tất cả</label>
+                </div>
+
+                <div class="filter-section">
+                    <h3>Khoảng giá</h3>
+                    <label class="filter-option"><input type="radio" name="price" value=""> Tất cả</label>
+                    <label class="filter-option"><input type="radio" name="price" value="0-500"> Dưới 500k</label>
+                    <label class="filter-option"><input type="radio" name="price" value="500-1000"> 500k - 1 triệu</label>
+                    <label class="filter-option"><input type="radio" name="price" value="1000-2000"> 1 - 2 triệu</label>
+                    <label class="filter-option"><input type="radio" name="price" value="2000-999999"> Trên 2 triệu</label>
+                </div>
+
+                <div class="filter-section">
+                    <h3>Size</h3>
+                    <div class="chip-row" id="sizeChips">
+                        <div class="chip" data-size="36">36</div><div class="chip" data-size="37">37</div><div class="chip" data-size="38">38</div><div class="chip" data-size="39">39</div><div class="chip" data-size="40">40</div><div class="chip" data-size="41">41</div><div class="chip" data-size="42">42</div><div class="chip" data-size="43">43</div><div class="chip" data-size="44">44</div><div class="chip" data-size="45">45</div><div class="chip" data-size="46">46</div>
+                        <div class="chip" data-size="XS">XS</div><div class="chip" data-size="S">S</div><div class="chip" data-size="M">M</div><div class="chip" data-size="L">L</div><div class="chip" data-size="XL">XL</div><div class="chip" data-size="XXL">XXL</div>
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <h3>Màu sắc</h3>
+                    <div class="chip-row" id="colorChips">
+                        <div class="chip" data-color="Đen"><span class="color-dot" style="background:#111;"></span> Đen</div>
+                        <div class="chip" data-color="Trắng"><span class="color-dot" style="background:#f5f5f5;"></span> Trắng</div>
+                        <div class="chip" data-color="Xám"><span class="color-dot" style="background:#888;"></span> Xám</div>
+                        <div class="chip" data-color="Xanh"><span class="color-dot" style="background:#0af;"></span> Xanh</div>
+                        <div class="chip" data-color="Đỏ"><span class="color-dot" style="background:#e33;"></span> Đỏ</div>
+                        <div class="chip" data-color="Hồng"><span class="color-dot" style="background:#f5a;"></span> Hồng</div>
+                        <div class="chip" data-color="Vàng"><span class="color-dot" style="background:#fc0;"></span> Vàng</div>
+                    </div>
+                </div>
+            </aside>
+
+            <section>
+                <div class="sort-bar">
+                    <p id="sortInfo" style="color: var(--text-gray); margin: 0;">Sắp xếp</p>
+                    <select id="sortSelect" class="sort-select">
+                        <option value="">Mặc định</option>
+                        <option value="price_asc">Giá: Thấp đến Cao</option>
+                        <option value="price_desc">Giá: Cao đến Thấp</option>
+                        <option value="name_asc">Tên: A → Z</option>
+                        <option value="name_desc">Tên: Z → A</option>
+                    </select>
+                </div>
+                <div class="product-grid-search" id="productGrid"></div>
+                
+                <!-- Pagination -->
+                <div id="paginationContainer" style="display:none; margin-top:30px; text-align:center;">
+                    <button id="prevPage" style="padding:10px 20px; margin:0 5px; border:1px solid #333; background:#0b0b0b; color:#ddd; border-radius:6px; cursor:pointer;">&lt; Trước</button>
+                    <span id="pageInfo" style="margin:0 15px; color:var(--text-gray);"></span>
+                    <button id="nextPage" style="padding:10px 20px; margin:0 5px; border:1px solid #333; background:#0b0b0b; color:#ddd; border-radius:6px; cursor:pointer;">Sau &gt;</button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script src="js/script.js"></script>
+    <script>
+        let filters = { group: '', size: '', color: '', minPrice: null, maxPrice: null, sort: '' };
+        let currentAbortController = null;
+        let fetchDebounceTimer = null;
+        let lastFetchUrl = null;
+        let allFilteredProducts = [];
+        let categoryCurrentPage = 1;
+        const productsPerPage = 12;
+        let currentRequestId = 0; // Track latest request
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateUserNav();
+            updateCartCount();
+            handleSearchBox();
+            initFromQuery();
+            bindFilters();
+            fetchAndRender();
+        });
+
+        function initFromQuery() {
+            const params = new URLSearchParams(window.location.search);
+            const type = params.get('type');
+            if (type) {
+                filters.group = type;
+                const radio = document.querySelector(`input[name="group"][value="${type}"]`);
+                if (radio) radio.checked = true;
+            }
+            const title = document.getElementById('categoryTitle');
+            if (filters.group === 'men') title.textContent = 'Nam';
+            else if (filters.group === 'women') title.textContent = 'Nữ';
+            else if (filters.group === 'accessories') title.textContent = 'Phụ kiện';
+            else title.textContent = 'Danh mục sản phẩm';
+            document.getElementById('breadcrumb').textContent = 'Danh mục / ' + title.textContent;
+        }
+
+        function bindFilters() {
+            document.querySelectorAll('input[name="group"]').forEach(r => {
+                r.addEventListener('change', e => {
+                    filters.group = e.target.value;
+                    debouncedFetch();
+                });
+            });
+
+            document.querySelectorAll('input[name="price"]').forEach(r => {
+                r.addEventListener('change', e => {
+                    const val = e.target.value;
+                    if (!val) { filters.minPrice = null; filters.maxPrice = null; }
+                    else {
+                        const [min, max] = val.split('-').map(v => parseFloat(v) * 1000);
+                        filters.minPrice = isNaN(min) ? null : min;
+                        filters.maxPrice = isNaN(max) ? null : max;
+                    }
+                    debouncedFetch();
+                });
+            });
+
+            document.querySelectorAll('#sizeChips .chip').forEach(chip => {
+                chip.addEventListener('click', () => {
+                    const val = chip.dataset.size;
+                    const active = chip.classList.contains('active');
+                    document.querySelectorAll('#sizeChips .chip').forEach(c => c.classList.remove('active'));
+                    filters.size = active ? '' : val;
+                    if (!active) chip.classList.add('active');
+                    debouncedFetch();
+                });
+            });
+
+            document.querySelectorAll('#colorChips .chip').forEach(chip => {
+                chip.addEventListener('click', () => {
+                    const val = chip.dataset.color;
+                    const active = chip.classList.contains('active');
+                    document.querySelectorAll('#colorChips .chip').forEach(c => c.classList.remove('active'));
+                    filters.color = active ? '' : val;
+                    if (!active) chip.classList.add('active');
+                    debouncedFetch();
+                });
+            });
+
+            document.getElementById('sortSelect').addEventListener('change', (e) => {
+                filters.sort = e.target.value;
+                debouncedFetch();
+            });
+        }
+
+        function debouncedFetch() {
+            clearTimeout(fetchDebounceTimer);
+            fetchDebounceTimer = setTimeout(() => {
+                fetchAndRender();
+            }, 300);
+        }
+
+        function buildFilterUrl() {
+            let url = '/api/products/filter?';
+            if (filters.group) url += `group=${encodeURIComponent(filters.group)}&`;
+            if (filters.size) url += `size=${encodeURIComponent(filters.size)}&`;
+            if (filters.color) url += `color=${encodeURIComponent(filters.color)}&`;
+            if (filters.minPrice !== null) url += `minPrice=${filters.minPrice}&`;
+            if (filters.maxPrice !== null) url += `maxPrice=${filters.maxPrice}&`;
+            if (filters.sort) url += `sort=${filters.sort}&`;
+            return url;
+        }
+
+        function fetchAndRender() {
+            // Cancel previous request if exists
+            if (currentAbortController) {
+                currentAbortController.abort();
+            }
+            
+            const url = buildFilterUrl();
+            
+            // Assign unique ID to this request
+            currentRequestId++;
+            const thisRequestId = currentRequestId;
+            
+            currentAbortController = new AbortController();
+            const grid = document.getElementById('productGrid');
+            const resultCount = document.getElementById('resultCount');
+            
+            // Always show loading state
+            resultCount.textContent = 'Đang tải...';
+            grid.innerHTML = '<h3 style="grid-column:1/-1;text-align:center;color:#777;">Đang tải sản phẩm...</h3>';
+
+            fetch(url, { signal: currentAbortController.signal })
+                .then(res => res.json())
+                .then(products => {
+                    // Only process if this is still the latest request
+                    if (thisRequestId !== currentRequestId) {
+                        console.log('Ignoring outdated response for request', thisRequestId);
+                        return;
+                    }
+                    
+                    allFilteredProducts = products;
+                    categoryCurrentPage = 1;
+                    lastFetchUrl = url;
+                    resultCount.textContent = `Tìm thấy ${products.length} sản phẩm`;
+                    
+                    if (!products.length) {
+                        grid.innerHTML = '<h3 style="grid-column:1/-1;text-align:center;color:#777;">Không tìm thấy sản phẩm phù hợp</h3>';
+                        document.getElementById('paginationContainer').style.display = 'none';
+                        return;
+                    }
+                    renderCurrentPage();
+                })
+                .catch(err => {
+                    if (err.name === 'AbortError') {
+                        console.log('Request aborted:', thisRequestId);
+                        return;
+                    }
+                    console.error('Lỗi lọc:', err);
+                    // Only show error if this is still the latest request
+                    if (thisRequestId === currentRequestId) {
+                        grid.innerHTML = '<h3 style="grid-column:1/-1;text-align:center;color:#777;">Có lỗi khi tải sản phẩm</h3>';
+                        document.getElementById('paginationContainer').style.display = 'none';
+                    }
+                });
+        }
+
+        function renderCurrentPage() {
+            const startIdx = (categoryCurrentPage - 1) * productsPerPage;
+            const endIdx = startIdx + productsPerPage;
+            const pageProducts = allFilteredProducts.slice(startIdx, endIdx);
+            const totalPages = Math.ceil(allFilteredProducts.length / productsPerPage);
+            
+            renderProducts(pageProducts);
+            
+            // Update pagination UI
+            const paginationContainer = document.getElementById('paginationContainer');
+            const prevBtn = document.getElementById('prevPage');
+            const nextBtn = document.getElementById('nextPage');
+            const pageInfo = document.getElementById('pageInfo');
+            
+            if (totalPages > 1) {
+                paginationContainer.style.display = 'block';
+                pageInfo.textContent = `Trang ${categoryCurrentPage} / ${totalPages}`;
+                prevBtn.disabled = categoryCurrentPage === 1;
+                nextBtn.disabled = categoryCurrentPage === totalPages;
+                prevBtn.style.opacity = categoryCurrentPage === 1 ? '0.5' : '1';
+                nextBtn.style.opacity = categoryCurrentPage === totalPages ? '0.5' : '1';
+            } else {
+                paginationContainer.style.display = 'none';
+            }
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Pagination button handlers
+        document.getElementById('prevPage').addEventListener('click', () => {
+            if (categoryCurrentPage > 1) {
+                categoryCurrentPage--;
+                renderCurrentPage();
+            }
+        });
+
+        document.getElementById('nextPage').addEventListener('click', () => {
+            const totalPages = Math.ceil(allFilteredProducts.length / productsPerPage);
+            if (categoryCurrentPage < totalPages) {
+                categoryCurrentPage++;
+                renderCurrentPage();
+            }
+        });
+
+        function renderProducts(products) {
+            const container = document.getElementById('productGrid');
+            container.innerHTML = '';
+            products.forEach(p => {
+                const discount = p.discountPercent || 0;
+                const discountBadge = discount > 0 
+                    ? `<span class="discount-tag" style="position:absolute;top:10px;left:10px;background:var(--accent-red);color:#fff;padding:4px 8px;border-radius:4px;font-size:0.8rem;font-weight:700;z-index:5;">-${discount}%</span>` 
+                    : '';
+                
+                container.innerHTML += `
+                    <div class="product-card" style="box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: relative;">
+                        <a href="product-detail.html?id=${p.id}" style="display:block;height:260px;overflow:hidden; position: relative;">
+                            <img src="${p.image}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover; transition: transform 0.5s ease;" onerror="this.src='https://placehold.co/300x300'">
+                            ${discountBadge}
+                        </a>
+                        <div style="position: absolute; top: 10px; right: 10px; z-index: 10;">
+                            <button class="btn-quick-add" data-id="${p.id}" data-name="${p.name}" data-price="${p.price}" data-image="${p.image}" data-category="${p.category}"
+                                    style="background: var(--accent-green); color: black; border: none; width: 46px; height: 46px; border-radius: 50%; font-size: 1.3rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s; box-shadow: 0 4px 12px rgba(0, 255, 102, 0.3); padding: 0;">
+                                🛒
+                            </button>
+                        </div>
+                        <div class="product-info" style="padding: 15px;">
+                            <p class="category" style="font-size:0.75rem;color:#888;text-transform:uppercase;margin-bottom:5px;">${p.category}</p>
+                            <h3 style="font-size:1.05rem;margin:5px 0;height:45px;overflow:hidden;line-height:1.4;">${p.name}</h3>
+                            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;">
+                                <p class="price" style="font-weight:bold;color:#111;font-size:1.1rem;">${formatMoney(p.price)}</p>
+                                <a href="product-detail.html?id=${p.id}" style="font-size:1.2rem;color:var(--accent-green);">→</a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            setupCartButtonListeners();
+        }
+
+        function setupCartButtonListeners() {
+            document.querySelectorAll('.btn-quick-add').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const id = btn.dataset.id;
+                    const name = btn.dataset.name;
+                    const price = parseFloat(btn.dataset.price);
+                    const image = btn.dataset.image;
+                    const category = btn.dataset.category;
+                    quickAddToCart(id, name, price, image, category, btn);
+                });
+            });
+        }
+
+        function quickAddToCart(id, name, price, image, category, button) {
+            const sizes = ['36','37','38','39','40','41','42','43','44','45','46','XS','S','M','L','XL','XXL'];
+            const sizeOptions = sizes.map(s => `<button style="padding:8px 12px; margin:5px; border:1px solid #ddd; background:white; cursor:pointer; border-radius:4px;" onclick="selectSize('${s}', ${id}, '${name}', ${price}, '${image}', '${category}')">${s}</button>`).join('');
+            const modal = document.createElement('div');
+            modal.style.cssText = `position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 9999;`;
+            modal.innerHTML = `
+                <div style="background:white; padding:30px; border-radius:8px; text-align:center; max-width:420px;">
+                    <h3 style="margin-top:0;">Chọn kích thước cho ${name}</h3>
+                    <div>${sizeOptions}</div>
+                    <button onclick="this.parentElement.parentElement.remove()" style="margin-top:15px; padding:8px 20px; background:#ddd; border:none; cursor:pointer; border-radius:4px;">Hủy</button>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+
+        window.selectSize = function(size, id, name, price, image, category) {
+            const product = { id, name, price, image, category };
+            addToCart(product, 1, size);
+            document.querySelectorAll('div').forEach(d => {
+                if (d.style.background && d.style.background.includes('rgba')) {
+                    d.remove();
+                }
+            });
+        };
+    </script>
+</body>
+</html>

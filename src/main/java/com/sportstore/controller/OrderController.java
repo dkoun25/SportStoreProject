@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +18,6 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/api/orders")
-@CrossOrigin(origins = "*")
 public class OrderController {
 
     @Autowired
@@ -72,10 +72,33 @@ public class OrderController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size,
             HttpSession session) {
+        
+        // Ưu tiên lấy theo userEmail nếu đã đăng nhập
+        String userEmail = (String) session.getAttribute("userEmail");
         String sessionId = session.getId();
         
-        List<Order> orders = orderService.getOrderHistory(sessionId, page, size);
-        long totalOrders = orderService.countOrders(sessionId);
+        // Debug log
+        System.out.println("=== GET ORDER HISTORY ===");
+        System.out.println("Session ID: " + sessionId);
+        System.out.println("User Email from session: " + userEmail);
+        
+        List<Order> orders;
+        long totalOrders;
+        
+        if (userEmail != null && !userEmail.isEmpty()) {
+            // User đã đăng nhập - lấy theo email
+            System.out.println("Fetching by EMAIL: " + userEmail);
+            orders = orderService.getOrderHistoryByEmail(userEmail, page, size);
+            totalOrders = orderService.countOrdersByEmail(userEmail);
+        } else {
+            // Chưa đăng nhập - lấy theo sessionId (fallback)
+            System.out.println("Fetching by SESSION ID: " + sessionId);
+            orders = orderService.getOrderHistory(sessionId, page, size);
+            totalOrders = orderService.countOrders(sessionId);
+        }
+        
+        System.out.println("Found orders: " + orders.size() + ", Total: " + totalOrders);
+        
         int totalPages = (int) Math.ceil((double) totalOrders / size);
         
         Map<String, Object> response = new HashMap<>();

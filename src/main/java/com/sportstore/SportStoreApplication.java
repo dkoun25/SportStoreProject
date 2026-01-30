@@ -17,18 +17,23 @@ public class SportStoreApplication {
         System.out.println("=========================================================");
         System.out.println("   SPORT STORE SERVER ĐANG CHẠY");
         System.out.println("=========================================================");
+        System.out.println("");
+        System.out.println("🚀 Backend API: http://localhost:8080");
+        System.out.println("");
+        System.out.println("=========================================================");
     }
 
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
             @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**")
-                        .allowedOrigins("https://apexsports.site", "http://localhost:8080", "http://localhost:5500")
+            public void addCorsMappings(@org.springframework.lang.NonNull CorsRegistry registry) {
+                registry.addMapping("/api/**")
+                        .allowedOriginPatterns("http://localhost:*", "http://127.0.0.1:*")
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
-                        .allowCredentials(true);
+                        .allowCredentials(true)
+                        .maxAge(3600);
             }
         };
     }

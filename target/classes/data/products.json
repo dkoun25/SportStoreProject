@@ -1,0 +1,613 @@
+[ {
+  "id" : 1,
+  "name" : "Áo Hoodie Tech Nam",
+  "category" : "men",
+  "price" : 1200000.0,
+  "image" : "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=500&q=80",
+  "description" : "Hoodie công nghệ cao với vải thấm hút mồ hôi, giữ ấm và thoáng khí. Thiết kế hiện đại với túi kéo kip và dây rút thoải mái.",
+  "sizes" : [ "S", "M", "L", "XL", "XXL" ],
+  "colors" : [ "Đen", "Xám", "Xanh dương", "Trắng" ],
+  "material" : "Polyester 60% + Cotton 40%",
+  "specs" : {
+    "weight" : "450g"
+  },
+  "discountPercent" : 25
+}, {
+  "id" : 2,
+  "name" : "Quần Short Chạy Bộ",
+  "category" : "men",
+  "price" : 650000.0,
+  "image" : "https://product.hstatic.net/200000805635/product/img_47899_41c3217475da459c9c7186ecb716ad14.jpg",
+  "description" : "Quần short chạy nhẹ với lớp lót thoáng mát. Có túi chạm để giữ điện thoại và chìa khóa. Thiết kế thoáng khí tối ưu cho hiệu suất chạy.",
+  "sizes" : [ "S", "M", "L", "XL" ],
+  "colors" : [ "Đen", "Xanh nước biển", "Cam" ],
+  "material" : "Nylon 88% + Spandex 12%",
+  "specs" : {
+    "waistband" : "Đàn hồi"
+  },
+  "discountPercent" : 0
+}, {
+  "id" : 3,
+  "name" : "Giày Nike Air Zoom",
+  "category" : "men",
+  "price" : 2800000.0,
+  "image" : "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&q=80",
+  "description" : "Giày chạy nam với công nghệ Air Zoom hỗ trợ tối ưu. Thiết kế mềm mại với độ bám tốt trên mọi bề mặt. Hoàn hảo cho huấn luyện hàng ngày.",
+  "sizes" : [ "36", "37", "38", "39", "40", "41", "42", "43" ],
+  "colors" : [ "Đen-Xám", "Trắng-Xám", "Đỏ-Đen" ],
+  "material" : "Mesh + Rubber",
+  "specs" : {
+    "weight" : "280g",
+    "cushioning" : "Air Zoom"
+  },
+  "discountPercent" : 40
+}, {
+  "id" : 4,
+  "name" : "Áo Thun Tập Luyện",
+  "category" : "men",
+  "price" : 550000.0,
+  "image" : "https://images.unsplash.com/photo-1581655353564-df123a1eb820?w=500&q=80",
+  "description" : "Áo thun tập luyện với công nghệ thấm hút mồ hôi nhanh chóng. Thiết kế vừa vặn hỗ trợ chuyển động. Chất liệu nhẹ và thoáng mát.",
+  "sizes" : [ "S", "M", "L", "XL", "XXL" ],
+  "colors" : [ "Đen", "Trắng", "Xanh lam", "Xám" ],
+  "material" : "Polyester 100%",
+  "specs" : {
+    "drying" : "Nhanh khô",
+    "fit" : "Regular"
+  },
+  "discountPercent" : 0
+}, {
+  "id" : 5,
+  "name" : "Áo Khoác Track",
+  "category" : "men",
+  "price" : 1500000.0,
+  "image" : "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=500&q=80",
+  "description" : "Áo khoác track nam với thiết kế thể thao hiện đại. Có khóa kéo hai chiều và túi ngoài đa chức năng. Vải gió không thấm, giữ ấm tốt.",
+  "sizes" : [ "S", "M", "L", "XL", "XXL" ],
+  "colors" : [ "Đen", "Xám", "Xanh dương" ],
+  "material" : "Nylon 100%",
+  "specs" : {
+    "weight" : "550g",
+    "waterproof" : "Có"
+  },
+  "discountPercent" : 30
+}, {
+  "id" : 6,
+  "name" : "Giày Jordan One Low",
+  "category" : "men",
+  "price" : 4500000.0,
+  "image" : "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=500&q=80",
+  "description" : "Giày Air Jordan One Low với thiết kế biểu tượng. Đế cao su bền với lớp đệm Phylon. Phù hợp cho bóng rổ chuyên nghiệp.",
+  "sizes" : [ "36", "37", "38", "39", "40", "41", "42", "43" ],
+  "colors" : [ "Đôi Đen", "Trắng-Đỏ", "Xanh-Đen" ],
+  "material" : "Leather + Rubber",
+  "specs" : {
+    "weight" : "340g",
+    "cushioning" : "Phylon Midsole"
+  },
+  "discountPercent" : 35
+}, {
+  "id" : 7,
+  "name" : "Quần Jogger Nam",
+  "category" : "men",
+  "price" : 950000.0,
+  "image" : "https://images.unsplash.com/photo-1552902865-b72c031ac5ea?w=500&q=80",
+  "description" : "Quần jogger nam thoải mái với thiết kế hiện đại. Lưng thun chỉnh được và đầu gấu co lại. Kết cấu mềm mại, không kích ứng da.",
+  "sizes" : [ "S", "M", "L", "XL", "XXL" ],
+  "colors" : [ "Đen", "Xám", "Xanh dương" ],
+  "material" : "Cotton 65% + Polyester 35%",
+  "specs" : {
+    "waistband" : "Adjustable",
+    "pockets" : "2"
+  },
+  "discountPercent" : 0
+}, {
+  "id" : 8,
+  "name" : "Áo Chống Gió Chạy Bộ",
+  "category" : "men",
+  "price" : 1800000.0,
+  "image" : "https://images.unsplash.com/photo-1578932750294-f5075e85f44a?w=500&q=80",
+  "description" : "Áo chống gió chạy bộ với lớp phủ chống nước. Thiết kế nhẹ gọn, dễ xếp gọn. Phù hợp cho chạy ngoài trời quanh năm.",
+  "sizes" : [ "S", "M", "L", "XL" ],
+  "colors" : [ "Đen", "Xanh lam", "Cam neon" ],
+  "material" : "Polyester 100%",
+  "specs" : {
+    "weight" : "150g",
+    "waterproof" : "Có"
+  },
+  "discountPercent" : 0
+}, {
+  "id" : 9,
+  "name" : "Áo Tank Bóng Rổ",
+  "category" : "men",
+  "price" : 800000.0,
+  "image" : "https://images.unsplash.com/photo-1519058082700-08a0b56da9b4?w=500&q=80",
+  "description" : "Áo tank bóng rổ nam với công nghệ thấm hút mồ hôi. Cắt vừa vặn thoáng khí. Logo in nổi hiện đại.",
+  "sizes" : [ "S", "M", "L", "XL", "XXL" ],
+  "colors" : [ "Đen", "Trắng", "Đỏ", "Xanh dương" ],
+  "material" : "Mesh Polyester 100%",
+  "specs" : {
+    "drying" : "Nhanh khô",
+    "fit" : "Slim"
+  },
+  "discountPercent" : 0
+}, {
+  "id" : 10,
+  "name" : "Áo Thun Heavy Cotton",
+  "category" : "men",
+  "price" : 600000.0,
+  "image" : "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500&q=80",
+  "description" : "Áo thun heavy cotton nam với chất liệu dày và bền. Thiết kế cổ điển, thoải mái cho mặc hàng ngày. Không cấp vá sau giặt.",
+  "sizes" : [ "S", "M", "L", "XL", "XXL" ],
+  "colors" : [ "Đen", "Trắng", "Xám", "Xanh dương" ],
+  "material" : "Cotton 100%",
+  "specs" : {
+    "weight" : "180g per m2",
+    "shrink" : "< 3%"
+  },
+  "discountPercent" : 0
+}, {
+  "id" : 11,
+  "name" : "Áo Nén Pro Combat",
+  "category" : "men",
+  "price" : 700000.0,
+  "image" : "https://images.unsplash.com/photo-1620138546344-7b2c38516edf?w=500&q=80",
+  "description" : "Áo nén pro nam hỗ trợ cơ bắp trong quá trình tập luyện. Công nghệ xóa mùi và thấm hút mồ hôi. Độ nén động tối ưu.",
+  "sizes" : [ "S", "M", "L", "XL", "XXL" ],
+  "colors" : [ "Đen", "Trắng", "Xám" ],
+  "material" : "Nylon 88% + Spandex 12%",
+  "specs" : {
+    "compression" : "Cao",
+    "odor_control" : "Có"
+  },
+  "discountPercent" : 0
+}, {
+  "id" : 12,
+  "name" : "Quần Short Cargo",
+  "category" : "men",
+  "price" : 850000.0,
+  "image" : "https://s3.ap-southeast-1.amazonaws.com/thegmen.vn/2023/3/1679459883535vatix8.jpg",
+  "description" : "Quần short cargo nam với nhiều túi tiện dụng. Chất liệu bền, thoáng khí. Phù hợp cho hoạt động ngoài trời.",
+  "sizes" : [ "S", "M", "L", "XL", "XXL" ],
+  "colors" : [ "Khaki", "Đen", "Xám", "Xanh rêu" ],
+  "material" : "Cotton 100%",
+  "specs" : {
+    "pockets" : "6",
+    "length" : "Mid-thigh"
+  },
+  "discountPercent" : 0
+}, {
+  "id" : 13,
+  "name" : "Giày Bóng Đá Predator",
+  "category" : "men",
+  "price" : 3200000.0,
+  "image" : "https://images.unsplash.com/photo-1511886929837-354d827aae26?w=500&q=80",
+  "description" : "Giày bóng đá nam với đinh hợp kim nhẹ. Mặt trên bằng da tự nhiên mềm mại. Hỗ trợ kiểm soát bóng tối ưu.",
+  "sizes" : [ "36", "37", "38", "39", "40", "41", "42", "43" ],
+  "colors" : [ "Đen", "Trắng-Đen", "Cam-Đen" ],
+  "material" : "Leather + Synthetic",
+  "specs" : {
+    "weight" : "215g",
+    "stud_type" : "Aluminum"
+  },
+  "discountPercent" : 28
+}, {
+  "id" : 14,
+  "name" : "Áo Khoác Mùa Đông",
+  "category" : "men",
+  "price" : 2500000.0,
+  "image" : "https://bizweb.dktcdn.net/100/502/737/products/screenshot-1702883681.png?v=1702883699383",
+  "description" : "Áo khoác mùa đông nam với lót lông giữ ấm. Chống nước và gió, dáng vừa vặn. Túi ấm tay với lót lông mền mại.",
+  "sizes" : [ "S", "M", "L", "XL", "XXL" ],
+  "colors" : [ "Đen", "Xám đậm", "Xanh dương" ],
+  "material" : "Polyester ngoài + Lining lông",
+  "specs" : {
+    "weight" : "850g",
+    "warmth_rating" : "8/10"
+  },
+  "discountPercent" : 0
+}, {
+  "id" : 15,
+  "name" : "Quần Nén Tập Luyện",
+  "category" : "men",
+  "price" : 900000.0,
+  "image" : "https://img.lazcdn.com/g/p/db77492d10e2faa5a4580035e4746f9a.png_720x720q80.png",
+  "description" : "Quần nén nam hỗ trợ tuần hoàn máu. Công nghệ khô nhanh và thấm hút mồ hôi. Thoáng khí, không gây khó chịu khi mặc dài.",
+  "sizes" : [ "S", "M", "L", "XL", "XXL" ],
+  "colors" : [ "Đen", "Xám", "Xanh dương" ],
+  "material" : "Nylon 88% + Spandex 12%",
+  "specs" : {
+    "compression" : "Cao",
+    "length" : "Full"
+  },
+  "discountPercent" : 0
+}, {
+  "id" : 16,
+  "name" : "Áo Bra Thể Thao Pro",
+  "category" : "women",
+  "price" : 850000.0,
+  "image" : "https://product.hstatic.net/200000642007/product/50bks_3ftkma443_4_71d879e25fea41df84da6beed5924acf_9c6216008cc0498ba8f1d996efb3db8e_master.jpg",
+  "description" : "Áo lót thể thao nữ có độ hỗ trợ cao. Thiết kế không may mũi giảm cọ xát. Công nghệ thấm hút mồ hôi nhanh chóng.",
+  "sizes" : [ "S", "M", "L", "XL" ],
+  "colors" : [ "Đen", "Trắng", "Xám" ],
+  "material" : "Nylon 88% + Spandex 12%",
+  "specs" : {
+    "support" : "High",
+    "padding" : "Lót mút"
+  },
+  "discountPercent" : 0
+}, {
+  "id" : 17,
+  "name" : "Quần Legging Yoga Flex",
+  "category" : "women",
+  "price" : 950000.0,
+  "image" : "https://images.unsplash.com/photo-1506619216599-9d16d0903dfd?w=500&q=80",
+  "description" : "Quần yoga nữ với tính co giãn cực cao. Lưng cao, ôm sát cơ thể. Có túi bên hông để giữ đồ vật nhỏ.",
+  "sizes" : [ "S", "M", "L", "XL" ],
+  "colors" : [ "Đen", "Xám", "Xanh lục", "Tím" ],
+  "material" : "Nylon 88% + Spandex 12%",
+  "specs" : {
+    "rise" : "High",
+    "inseam" : "27 inch",
+    "pockets" : "Side"
+  },
+  "discountPercent" : 0
+}, {
+  "id" : 18,
+  "name" : "Áo Crop Top Nữ",
+  "category" : "women",
+  "price" : 500000.0,
+  "image" : "https://images.unsplash.com/photo-1518310383802-640c2de311b2?w=500&q=80",
+  "description" : "Áo crop top nữ với thiết kế thoáng khí, phù hợp cho tập luyện nhẹ. Chất liệu mềm mại, thoáng khí. Dễ kết hợp với nhiều trang phục.",
+  "sizes" : [ "S", "M", "L", "XL" ],
+  "colors" : [ "Đen", "Trắng", "Xám", "Hồng nhạt" ],
+  "material" : "Cotton 100%",
+  "specs" : {
+    "length" : "Short",
+    "fit" : "Fitted"
+  },
+  "discountPercent" : 0
+}, {
+  "id" : 19,
+  "name" : "Giày Ultraboost Nữ",
+  "category" : "women",
+  "price" : 3200000.0,
+  "image" : "https://images.unsplash.com/photo-1587563871167-1ee9c731aefb?w=500&q=80",
+  "description" : "Giày chạy nữ Ultraboost với đệm Boost. Thiết kế nhẹ, hỗ trợ cung chân tối ưu. Phù hợp cho chạy bộ hàng ngày và sự kiện.",
+  "sizes" : [ "36", "37", "38", "39", "40", "41" ],
+  "colors" : [ "Đen", "Trắng", "Xám", "Hồng" ],
+  "material" : "Mesh + Boost Foam + Rubber",
+  "specs" : {
+    "weight" : "260g",
+    "cushioning" : "Boost"
+  },
+  "discountPercent" : 22
+}, {
+  "id" : 20,
+  "name" : "Áo Chống Gió Windrunner",
+  "category" : "women",
+  "price" : 1800000.0,
+  "image" : "https://images.unsplash.com/photo-1554568218-0f1715e72254?w=500&q=80",
+  "description" : "Áo chạy gió nữ nhẹ với khả năng chống nước. Thiết kế sáng tạo, có lỗ thông hơi. Hoàn hảo cho chạy ngoài trời.",
+  "sizes" : [ "S", "M", "L", "XL" ],
+  "colors" : [ "Đen", "Xanh lam", "Hồng" ],
+  "material" : "Polyester 100%",
+  "specs" : {
+    "weight" : "120g",
+    "waterproof" : "Có"
+  },
+  "discountPercent" : 0
+}, {
+  "id" : 21,
+  "name" : "Áo Tank Top Nữ",
+  "category" : "women",
+  "price" : 450000.0,
+  "image" : "https://product.hstatic.net/1000008082/product/1112_433c196e988b44eb9ebcd060b63aa629_master.png",
+  "description" : "Áo tank tập luyện nữ với công nghệ thấm hút mồ hôi. Thiết kế đơn giản, dễ phối hợp. Chất liệu thoáng khí.",
+  "sizes" : [ "S", "M", "L", "XL" ],
+  "colors" : [ "Đen", "Trắng", "Xám", "Xanh dương" ],
+  "material" : "Polyester 100%",
+  "specs" : {
+    "drying" : "Nhanh khô",
+    "fit" : "Loose"
+  },
+  "discountPercent" : 0
+}, {
+  "id" : 22,
+  "name" : "Quần Bike Short Nữ",
+  "category" : "women",
+  "price" : 600000.0,
+  "image" : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRU9-MjPpjt0gZkwflO1YFY-D97AY5sAest0g&s",
+  "description" : "Quần bike short nữ với lưng cao ôm sát. Chất liệu mềm mại, có bên trong đệm. Phù hợp cho tập luyện và mặc hàng ngày.",
+  "sizes" : [ "S", "M", "L", "XL" ],
+  "colors" : [ "Đen", "Xám", "Xanh dương" ],
+  "material" : "Nylon 88% + Spandex 12%",
+  "specs" : {
+    "rise" : "High",
+    "inseam" : "7 inch"
+  },
+  "discountPercent" : 0
+}, {
+  "id" : 23,
+  "name" : "Áo Hoodie Gym Nữ",
+  "category" : "women",
+  "price" : 1100000.0,
+  "image" : "https://contents.mediadecathlon.com/p2848175/k$3113193be94ba23589030448eb660221/%C3%A1o-kho%C3%A1c-hoodie-n%E1%BB%AF-elementals-h%E1%BB%93ng-decathlon-8930102.jpg",
+  "description" : "Hoodie tập luyện nữ với chất liệu thấm hút mồ hôi. Có khóa kéo 1/2 chừng cho điều chỉnh nhiệt độ. Dáng vừa vặn không quá sát.",
+  "sizes" : [ "S", "M", "L", "XL" ],
+  "colors" : [ "Đen", "Xám", "Hồng" ],
+  "material" : "Polyester 60% + Cotton 40%",
+  "specs" : {
+    "weight" : "400g",
+    "zipper" : "Half-zip"
+  },
+  "discountPercent" : 0
+}, {
+  "id" : 24,
+  "name" : "Giày Pastel Nữ",
+  "category" : "women",
+  "price" : 2100000.0,
+  "image" : "https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=500&q=80",
+  "description" : "Giày thể thao nữ với màu sắc pastel nhẹ nhàng. Thiết kế thoáng khí, phù hợp cho hoạt động hàng ngày. Đế bền, thoải mái.",
+  "sizes" : [ "36", "37", "38", "39", "40" ],
+  "colors" : [ "Hồng pastel", "Xanh pastel", "Tím pastel", "Vàng pastel" ],
+  "material" : "Mesh + Rubber",
+  "specs" : {
+    "weight" : "240g",
+    "cushioning" : "Foam"
+  },
+  "discountPercent" : 0
+}, {
+  "id" : 25,
+  "name" : "Chân Váy Tennis",
+  "category" : "women",
+  "price" : 850000.0,
+  "image" : "https://images.unsplash.com/photo-1610348725531-843dff563e2c?w=500&q=80",
+  "description" : "Chân váy tennis nữ với thiết kế cổ điển. Có lớp lót phong phú bên dưới. Chất liệu thoáng khí, dễ chuyển động.",
+  "sizes" : [ "S", "M", "L", "XL" ],
+  "colors" : [ "Trắng", "Đen", "Xanh lam" ],
+  "material" : "Polyester 100%",
+  "specs" : {
+    "length" : "Knee-length",
+    "lining" : "Shorts"
+  },
+  "discountPercent" : 0
+}, {
+  "id" : 26,
+  "name" : "Áo Bra Hỗ Trợ Cao",
+  "category" : "women",
+  "price" : 950000.0,
+  "image" : "https://images.unsplash.com/photo-1571731956672-f2b94d7dd0cb?w=500&q=80",
+  "description" : "Áo lót thể thao nữ độ hỗ trợ cực cao cho hoạt động mạnh. Thiết kế không may mũi, giảm cọ xát. Công nghệ thấm hút mồ hôi.",
+  "sizes" : [ "S", "M", "L", "XL" ],
+  "colors" : [ "Đen", "Trắng", "Xám" ],
+  "material" : "Nylon 88% + Spandex 12%",
+  "specs" : {
+    "support" : "Maximum",
+    "padding" : "Lót mút dày"
+  },
+  "discountPercent" : 0
+}, {
+  "id" : 27,
+  "name" : "Áo Khoác Lông Cừu",
+  "category" : "women",
+  "price" : 1600000.0,
+  "image" : "https://images.unsplash.com/photo-1516762689617-e1cffcef479d?w=500&q=80",
+  "description" : "Áo khoác lông cừu nữ mềm mại, ấm áp. Thiết kế cổ điển với túi ấm tay. Phù hợp cho mặc casual hoặc tập luyện nhẹ.",
+  "sizes" : [ "S", "M", "L", "XL", "XXL" ],
+  "colors" : [ "Đen", "Xám", "Xanh dương", "Hồng" ],
+  "material" : "Polyester lông 100%",
+  "specs" : {
+    "weight" : "550g",
+    "warmth_rating" : "7/10"
+  },
+  "discountPercent" : 0
+}, {
+  "id" : 28,
+  "name" : "Giày Chạy Bộ Nữ",
+  "category" : "women",
+  "price" : 2500000.0,
+  "image" : "https://images.unsplash.com/photo-1562183241-b937e95585b6?w=500&q=80",
+  "description" : "Giày chạy bộ nữ chuyên biệt với hỗ trợ cung chân tối ưu. Công nghệ giảm chấn, thoáng khí. Hoàn hảo cho luyện tập hàng ngày.",
+  "sizes" : [ "36", "37", "38", "39", "40", "41" ],
+  "colors" : [ "Đen", "Trắng", "Hồng", "Xám" ],
+  "material" : "Mesh + Rubber",
+  "specs" : {
+    "weight" : "250g",
+    "arch_support" : "High"
+  },
+  "discountPercent" : 0
+}, {
+  "id" : 29,
+  "name" : "Túi Đựng Thảm Yoga",
+  "category" : "accessories",
+  "price" : 400000.0,
+  "image" : "https://pos.nvncdn.com/891484-25934/ps/20180314_Nku5wOKL9P9YYHCwZpthWmv6.jpg?v=1677036197",
+  "description" : "Túi đựng thảm yoga với dây đeo vai tiện lợi. Có ngăn phụ để đựng đồ vật nhỏ. Chất liệu bền, dễ vệ sinh.",
+  "sizes" : [ ],
+  "colors" : [ "Đen", "Xanh", "Hồng" ],
+  "material" : "Canvas",
+  "specs" : {
+    "dimensions" : "18x7 inch",
+    "capacity" : "15L"
+  },
+  "discountPercent" : 0
+}, {
+  "id" : 30,
+  "name" : "Áo Thun Hồng Nữ",
+  "category" : "women",
+  "price" : 550000.0,
+  "image" : "https://cavathanquoc.com/wp-content/uploads/2024/06/Ao-thun-tron-cotton-mau-hong-nhat-4.jpg",
+  "description" : "Áo thun hồng nữ với chất liệu cotton mềm mại. Thiết kế đơn giản, phù hợp cho mặc hàng ngày. Màu sắc tươi sáng.",
+  "sizes" : [ "S", "M", "L", "XL" ],
+  "colors" : [ "Hồng fuchsia", "Hồng nhạt", "Hồng đào" ],
+  "material" : "Cotton 100%",
+  "specs" : {
+    "weight" : "160g per m2",
+    "fit" : "Regular"
+  },
+  "discountPercent" : 0
+}, {
+  "id" : 31,
+  "name" : "Túi Tập Gym Duffel",
+  "category" : "accessories",
+  "price" : 1200000.0,
+  "image" : "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&q=80",
+  "description" : "Túi du lịch thể thao với dung tích lớn. Có ngăn chia và túi phụ tiện dụng. Chất liệu bền, dễ làm sạch.",
+  "sizes" : [ ],
+  "colors" : [ "Đen", "Xám", "Xanh dương" ],
+  "material" : "Polyester",
+  "specs" : {
+    "dimensions" : "50x30x30 cm",
+    "capacity" : "45L"
+  },
+  "discountPercent" : 0
+}, {
+  "id" : 32,
+  "name" : "Vớ Thể Thao Performance",
+  "category" : "accessories",
+  "price" : 150000.0,
+  "image" : "https://images.unsplash.com/photo-1586350977771-b3b0abd50c82?w=500&q=80",
+  "description" : "Vớ thể thao cao cấp với công nghệ thấm hút mồ hôi. Độ co giãn vừa phải, giữ chân ấm. Bộ 3 đôi.",
+  "sizes" : [ "36-41" ],
+  "colors" : [ "Đen", "Trắng", "Xám", "Xanh dương" ],
+  "material" : "Cotton 60% + Polyester 30% + Spandex 10%",
+  "specs" : {
+    "quantity" : "3 pairs",
+    "height" : "Mid-calf"
+  },
+  "discountPercent" : 0
+}, {
+  "id" : 33,
+  "name" : "Bình Giữ Nhiệt Hydro",
+  "category" : "accessories",
+  "price" : 800000.0,
+  "image" : "https://hangdang.vn/wp-content/uploads/2024/07/W16BTS114-Oat-1-1.png",
+  "description" : "Bình nước giữ nhiệt cao cấp, giữ nóng/lạnh 24 giờ. Không chứa BPA, an toàn cho sức khỏe. Thiết kế hiện đại, dễ mang theo.",
+  "sizes" : [ ],
+  "colors" : [ "Xanh lam", "Đen", "Trắng", "Cam" ],
+  "material" : "Stainless Steel",
+  "specs" : {
+    "capacity" : "32oz (946ml)",
+    "warranty" : "Lifetime"
+  },
+  "discountPercent" : 0
+}, {
+  "id" : 34,
+  "name" : "Găng Tay Tập Tạ",
+  "category" : "accessories",
+  "price" : 450000.0,
+  "image" : "https://aolikessports.com/wp-content/uploads/2021/10/117.jpg",
+  "description" : "Găng tay nâng tạ với độ bám tốt và bảo vệ lòng bàn tay. Chất liệu da tự nhiên mềm mại. Phù hợp cho các bài tập tạ nặng.",
+  "sizes" : [ "S", "M", "L", "XL" ],
+  "colors" : [ "Đen", "Nâu", "Xám" ],
+  "material" : "Leather",
+  "specs" : {
+    "palm_padding" : "5mm",
+    "wrist_support" : "Strong"
+  },
+  "discountPercent" : 0
+}, {
+  "id" : 35,
+  "name" : "Mũ Lưỡi Trai Classic",
+  "category" : "accessories",
+  "price" : 350000.0,
+  "image" : "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=500&q=80",
+  "description" : "Mũ lưỡi trai đen cơ bản, phù hợp cho bất kỳ lứa tuổi nào. Chất liệu cotton bền, thoáng khí. Dễ điều chỉnh kích cỡ.",
+  "sizes" : [ ],
+  "colors" : [ "Đen", "Trắng", "Xám" ],
+  "material" : "Cotton 100%",
+  "specs" : {
+    "style" : "Baseball",
+    "fit" : "Adjustable"
+  },
+  "discountPercent" : 0
+}, {
+  "id" : 36,
+  "name" : "Dây Đeo Smartwatch",
+  "category" : "accessories",
+  "price" : 250000.0,
+  "image" : "https://images.unsplash.com/photo-1551816230-ef5deaed4a26?w=500&q=80",
+  "description" : "Dây đeo smartwatch với chất liệu silicone chống nước. Dễ tháo lắp, không gây kích ứng da. Bộ 2 dây với màu sắc khác nhau.",
+  "sizes" : [ "S", "M" ],
+  "colors" : [ "Đen", "Trắng", "Xanh lam", "Hồng" ],
+  "material" : "Silicone",
+  "specs" : {
+    "compatibility" : "Universal 22mm",
+    "quantity" : "2 bands"
+  },
+  "discountPercent" : 0
+}, {
+  "id" : 37,
+  "name" : "Mũ Che Nắng Chạy Bộ",
+  "category" : "accessories",
+  "price" : 300000.0,
+  "image" : "https://product.hstatic.net/200000943799/product/non_den_1d160c1cbd4c48ad9bae3907da56bffd_master.png",
+  "description" : "Mũ che nắng chạy bộ giảm chói. Chất liệu thoáng khí, có dây quấn gáy. Phù hợp cho chạy ngoài trời.",
+  "sizes" : [ ],
+  "colors" : [ "Đen", "Xanh dương", "Hồng", "Xanh lục" ],
+  "material" : "Polyester",
+  "specs" : {
+    "uv_protection" : "UPF 50+",
+    "adjustable" : "Có"
+  },
+  "discountPercent" : 0
+}, {
+  "id" : 38,
+  "name" : "Thảm Yoga Premium",
+  "category" : "accessories",
+  "price" : 800000.0,
+  "image" : "https://images.unsplash.com/photo-1592432678016-e910b452f9a2?w=500&q=80",
+  "description" : "Thảm yoga cao cấp với độ co giãn tối ưu. Bề mặt chống trơn trượt, thoáng khí. Dễ vệ sinh, bền lâu.",
+  "sizes" : [ ],
+  "colors" : [ "Xanh lục", "Xám", "Tím", "Đen" ],
+  "material" : "TPE",
+  "specs" : {
+    "dimensions" : "183x66x0.5 cm",
+    "weight" : "1.2kg"
+  },
+  "discountPercent" : 0
+}, {
+  "id" : 39,
+  "name" : "Dây Kháng Lực",
+  "category" : "accessories",
+  "price" : 250000.0,
+  "image" : "https://images.unsplash.com/photo-1598289431512-b97b0917affc?w=500&q=80",
+  "description" : "Bộ dây kháng lực với 5 mức độ khác nhau. Chất liệu latex tự nhiên, bền. Bộ gồm 5 dây với túi đựng.",
+  "sizes" : [ ],
+  "colors" : [ "Đa sắc" ],
+  "material" : "Latex",
+  "specs" : {
+    "quantity" : "5 bands",
+    "resistance_levels" : "5",
+    "length" : "150cm"
+  },
+  "discountPercent" : 0
+}, {
+  "id" : 40,
+  "name" : "Băng Đô Thể Thao",
+  "category" : "accessories",
+  "price" : 120000.0,
+  "image" : "https://cdn.yousport.vn/Media/Products/151020100546475/Gallery/418acceb452e0f68bba1df1708374962.jfif",
+  "description" : "Băng đô thế thao chống thấm mồ hôi. Chất liệu mềm mại, co giãn. Phù hợp cho tập luyện hoặc chạy bộ.",
+  "sizes" : [ ],
+  "colors" : [ "Đen", "Đỏ", "Xanh" ],
+  "material" : "Cotton + Spandex",
+  "specs" : {
+    "width" : "4cm",
+    "elastic" : "Strong"
+  },
+  "discountPercent" : 0
+}, {
+  "id" : 41,
+  "name" : "Áo khoác Kaki",
+  "category" : "men",
+  "price" : 660000.0,
+  "image" : "https://cdn0199.cdn4s.com/media/546%20%C4%91en%20%20950k.jpg",
+  "description" : "là trang phục được làm từ vải kaki, một chất liệu nổi tiếng về độ bền, đứng form và ít nhăn. Vải kaki có thể được dệt từ 100% cotton hoặc pha với sợi tổng hợp, mang lại cảm giác thoáng mát và thoải mái khi mặc",
+  "sizes" : [ "S", "M", "L", "XL", "XXL" ],
+  "colors" : [ "Nâu", "Vàng", "Be" ],
+  "material" : "Kaki",
+  "specs" : { },
+  "discountPercent" : 0
+} ]
