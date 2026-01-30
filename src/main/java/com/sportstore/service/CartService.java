@@ -24,9 +24,27 @@ public class CartService {
      * Lấy giỏ hàng của một session
      */
     public CartResponse getCart(String sessionId) {
-        List<CartItem> items = cartStorage.getOrDefault(sessionId, new ArrayList<>());
-        return new CartResponse(items);
-    }
+    List<CartItem> items = cartStorage.getOrDefault(sessionId, new ArrayList<>());
+    
+    // Tính subtotal
+    double subtotal = items.stream()
+        .mapToDouble(item -> item.getPrice() * item.getQuantity())
+        .sum();
+    
+    // Tính shipping (miễn phí nếu >= 200k)
+    double shipping = subtotal >= 200000 ? 0 : 30000;
+    
+    // Tính total (KHÔNG cộng thêm gì)
+    double total = subtotal + shipping;
+    
+    CartResponse response = new CartResponse();
+    response.setItems(items);
+    response.setSubtotal(subtotal);
+    response.setShipping(shipping);
+    response.setTotal(total);
+    
+    return response;
+}
 
     /**
      * Thêm sản phẩm vào giỏ hàng

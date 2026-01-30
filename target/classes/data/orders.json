@@ -1,6 +1,6 @@
 [ {
   "id" : 1,
-  "sessionId" : "1B416EBF18A2B7143C5F614513774E4A",
+  "sessionId" : "90164AA13B4DCB135D5523F0B9BB0E3D",
   "userEmail" : "khangfa1997@gmail.com",
   "items" : [ {
     "id" : 6,
@@ -8,18 +8,18 @@
     "category" : "men",
     "price" : 4500000.0,
     "image" : "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=500&q=80",
-    "quantity" : 1,
+    "quantity" : 2,
     "size" : null,
     "color" : "Đôi Đen",
-    "addedDate" : 1769796930274,
+    "addedDate" : 1769799361696,
     "discountPercent" : null,
-    "subtotal" : 4500000.0
+    "subtotal" : 9000000.0
   } ],
-  "subtotal" : 4500000.0,
+  "subtotal" : 9000000.0,
   "shipping" : 0.0,
-  "discount" : 0.0,
-  "total" : 4950000.0,
-  "promoCode" : null,
-  "createdAt" : 1769796932804,
+  "discount" : 1350000.0,
+  "total" : 7650000.0,
+  "promoCode" : "APEX15",
+  "createdAt" : 1769799381185,
   "status" : "completed"
 } ]

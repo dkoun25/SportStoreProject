@@ -54,6 +54,7 @@ public class AuthController {
             return new AuthResponse(false, "Đăng ký thất bại");
         }
     }
+    
 
     // API 2: Đăng nhập
     // URL: POST http://localhost:8080/api/auth/login
@@ -137,4 +138,5 @@ public class AuthController {
             return new AuthResponse(false, "Cập nhật thất bại");
         }
     }
+    
 }

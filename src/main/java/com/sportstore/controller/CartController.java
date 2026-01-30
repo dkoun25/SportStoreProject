@@ -57,14 +57,23 @@ public class CartController {
      * Body: { "quantity": 5, "size": "L" }
      */
     @PutMapping("/update/{productId}")
-    public CartResponse updateQuantity(
-            @PathVariable int productId,
-            @RequestParam int quantity,
-            @RequestParam(required = false, defaultValue = "M") String size,
-            HttpSession session) {
-        String sessionId = session.getId();
-        return cartService.updateQuantity(sessionId, productId, size, quantity);
-    }
+public CartResponse updateQuantity(
+        @PathVariable int productId,
+        @RequestParam int quantity,
+        @RequestParam(required = false, defaultValue = "") String size,
+        HttpSession session) {
+    String sessionId = session.getId();
+    System.out.println("=== UPDATE QUANTITY ===");
+    System.out.println("Product ID: " + productId);
+    System.out.println("Size: " + size);
+    System.out.println("New quantity: " + quantity);
+    System.out.println("Session ID: " + sessionId);
+    
+    CartResponse response = cartService.updateQuantity(sessionId, productId, size, quantity);
+    System.out.println("Cart items after update: " + response.getItems().size());
+    
+    return response;
+}
 
     /**
      * Xóa item khỏi giỏ
@@ -72,13 +81,21 @@ public class CartController {
      * Query param: size (mặc định "M")
      */
     @DeleteMapping("/remove/{productId}")
-    public CartResponse removeFromCart(
-            @PathVariable int productId,
-            @RequestParam(required = false, defaultValue = "M") String size,
-            HttpSession session) {
-        String sessionId = session.getId();
-        return cartService.removeFromCart(sessionId, productId, size);
-    }
+public CartResponse removeFromCart(
+        @PathVariable int productId,
+        @RequestParam(required = false, defaultValue = "") String size,
+        HttpSession session) {
+    String sessionId = session.getId();
+    System.out.println("=== REMOVE ITEM ===");
+    System.out.println("Product ID: " + productId);
+    System.out.println("Size: " + size);
+    System.out.println("Session ID: " + sessionId);
+    
+    CartResponse response = cartService.removeFromCart(sessionId, productId, size);
+    System.out.println("Cart items after remove: " + response.getItems().size());
+    
+    return response;
+}
 
     /**
      * Xóa toàn bộ giỏ hàng
@@ -105,18 +122,16 @@ public class CartController {
      * POST /api/cart/checkout
      */
     @PostMapping("/checkout")
-    public CartResponse checkout(HttpSession session) {
-        String sessionId = session.getId();
-        CartResponse cart = cartService.getCart(sessionId);
-        
-        // Giả lập xử lý thanh toán
-        if (!cart.isEmpty()) {
-  
-            cartService.checkout(sessionId);
-        }
-
-        return cart;
+public CartResponse checkout(HttpSession session) {
+    String sessionId = session.getId();
+    CartResponse cart = cartService.getCart(sessionId);
+    
+    if (!cart.isEmpty()) {
+        cartService.checkout(sessionId);
     }
+    
+    return cart;
+}
 
     /**
      * Kiểm tra trạng thái giỏ hàng
