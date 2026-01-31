@@ -102,6 +102,9 @@ document.addEventListener("DOMContentLoaded", () => {
         loadProductDetail();
     } else if (path.includes("index.html") || path === "/") {
         loadHomeProducts();
+    } else if (path.includes("category.html") || path.includes("search.html")) {
+        // These pages have their own logic; avoid conflicting renders.
+        return;
     } else {
         loadCategoryPage(path);
     }

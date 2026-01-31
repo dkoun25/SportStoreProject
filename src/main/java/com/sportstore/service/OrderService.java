@@ -41,7 +41,7 @@ public class OrderService {
         this.objectMapper.registerModule(new JavaTimeModule());
         
         // Đường dẫn file orders.json
-        this.ordersFilePath = Paths.get("src/main/resources/data/orders.json");
+        this.ordersFilePath = Paths.get("data/orders.json");
         
         // Khởi tạo mã giảm giá APEX15
         promoCodes.put("APEX15", new PromoCode("APEX15", 0.15, 3, "Giảm 15% cho sản phẩm chưa giảm giá"));
@@ -55,18 +55,24 @@ public class OrderService {
      */
     private void loadOrdersFromFile() {
         try {
-            InputStream inputStream = getClass().getResourceAsStream("/data/orders.json");
-            
             List<Order> orderList;
-            if (inputStream != null) {
-                orderList = objectMapper.readValue(inputStream, new TypeReference<List<Order>>() {});
-            } else if (Files.exists(ordersFilePath)) {
+            Path legacyPath = Paths.get("src/main/resources/data/orders.json");
+            if (Files.exists(ordersFilePath)) {
                 orderList = objectMapper.readValue(ordersFilePath.toFile(), new TypeReference<List<Order>>() {});
+            } else if (Files.exists(legacyPath)) {
+                orderList = objectMapper.readValue(legacyPath.toFile(), new TypeReference<List<Order>>() {});
+                saveOrdersToFile(orderList);
             } else {
-                System.out.println("File orders.json không tồn tại. Tạo danh sách rỗng.");
-                orderList = new ArrayList<>();
+                InputStream inputStream = getClass().getResourceAsStream("/data/orders.json");
+                if (inputStream != null) {
+                    orderList = objectMapper.readValue(inputStream, new TypeReference<List<Order>>() {});
+                } else {
+                    System.out.println("File orders.json không tồn tại. Tạo danh sách rỗng.");
+                    orderList = new ArrayList<>();
+                }
+                saveOrdersToFile(orderList);
             }
-            
+
             // Load vào Map
             for (Order order : orderList) {
                 orders.put(order.getId(), order);
@@ -74,9 +80,9 @@ public class OrderService {
                     orderIdCounter.set(order.getId() + 1);
                 }
             }
-            
+
             System.out.println("✓ Đã load " + orders.size() + " orders từ file");
-            
+
         } catch (IOException e) {
             System.err.println("Lỗi đọc file orders.json: " + e.getMessage());
             e.printStackTrace();
@@ -87,19 +93,32 @@ public class OrderService {
      * Lưu danh sách orders vào file JSON
      */
     private void saveOrdersToFile() {
+        saveOrdersToFile(null);
+    }
+
+    private void saveOrdersToFile(List<Order> seedOrders) {
         try {
             Files.createDirectories(ordersFilePath.getParent());
-            
+
+            List<Order> snapshot;
+            if (seedOrders != null) {
+                snapshot = new ArrayList<>(seedOrders);
+            } else {
+                snapshot = new ArrayList<>(orders.values());
+            }
+            snapshot.sort(Comparator.comparingInt(Order::getId));
+
             objectMapper.writerWithDefaultPrettyPrinter()
-                    .writeValue(ordersFilePath.toFile(), orders.values());
-            
-            System.out.println("✓ Đã lưu " + orders.size() + " orders vào file");
-            
+                    .writeValue(ordersFilePath.toFile(), snapshot);
+
+            System.out.println("✓ Đã lưu " + snapshot.size() + " orders vào file");
+
         } catch (IOException e) {
             System.err.println("Lỗi ghi file orders.json: " + e.getMessage());
             e.printStackTrace();
         }
     }
+
     
     /**
      * Kiểm tra và áp dụng mã giảm giá

@@ -1,25 +1,25 @@
 [ {
   "id" : 1,
-  "sessionId" : "8A69A97EBF8AC411F21111E285D5E848",
+  "sessionId" : "E5565A0D756360A9A393B66CF3984EA4",
   "userEmail" : "khangfa1997@gmail.com",
   "items" : [ {
-    "id" : 19,
-    "name" : "Giày Ultraboost Nữ",
-    "category" : "women",
-    "price" : 3200000.0,
-    "image" : "https://images.unsplash.com/photo-1587563871167-1ee9c731aefb?w=500&q=80",
+    "id" : 6,
+    "name" : "Giày Jordan One Low",
+    "category" : "men",
+    "price" : 4500000.0,
+    "image" : "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=500&q=80",
     "quantity" : 1,
     "size" : null,
-    "color" : "Đen",
-    "addedDate" : 1769801237634,
+    "color" : "Đôi Đen",
+    "addedDate" : 1769890783924,
     "discountPercent" : null,
-    "subtotal" : 3200000.0
+    "subtotal" : 4500000.0
   } ],
-  "subtotal" : 3200000.0,
+  "subtotal" : 4500000.0,
   "shipping" : 0.0,
   "discount" : 0.0,
-  "total" : 3200000.0,
+  "total" : 4500000.0,
   "promoCode" : null,
-  "createdAt" : 1769801240109,
+  "createdAt" : 1769890788768,
   "status" : "completed"
 } ]

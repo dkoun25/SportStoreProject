@@ -1,12 +1,12 @@
 [ {
   "id" : 3,
   "firstName" : "Nguyễn",
-  "lastName" : "Khang",
+  "lastName" : "Khang Đẹp Trai",
   "email" : "khangfa1997@gmail.com",
   "phone" : "0342302353",
-  "password" : "asdasd",
-  "avatar" : "https://ui-avatars.com/api/?name=Nguyễn+Khang&background=00ff66&color=000",
-  "address" : null,
+  "password" : "wsaddaswasd",
+  "avatar" : "https://ui-avatars.com/api/?name=Nguyễn+Khang Đẹp Trai&background=00ff66&color=000",
+  "address" : "thôn 5",
   "createdAt" : 1769200674059
 }, {
   "id" : 1,

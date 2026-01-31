@@ -846,15 +846,19 @@
         btnDecrease.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
-            console.log('Decrease clicked:', currentItemId, currentItemSize, 'from', currentItemQuantity);
-            updateQuantityAPI(currentItemId, currentItemSize, currentItemQuantity - 1);
+            const displayedQty = parseInt(inputQuantity.value, 10);
+            const baseQty = Number.isFinite(displayedQty) ? displayedQty : currentItemQuantity;
+            console.log('Decrease clicked:', currentItemId, currentItemSize, 'from', baseQty);
+            updateQuantityAPI(currentItemId, currentItemSize, baseQty - 1);
         });
         
         btnIncrease.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
-            console.log('Increase clicked:', currentItemId, currentItemSize, 'from', currentItemQuantity);
-            updateQuantityAPI(currentItemId, currentItemSize, currentItemQuantity + 1);
+            const displayedQty = parseInt(inputQuantity.value, 10);
+            const baseQty = Number.isFinite(displayedQty) ? displayedQty : currentItemQuantity;
+            console.log('Increase clicked:', currentItemId, currentItemSize, 'from', baseQty);
+            updateQuantityAPI(currentItemId, currentItemSize, baseQty + 1);
         });
         
         btnRemove.addEventListener('click', function(e) {

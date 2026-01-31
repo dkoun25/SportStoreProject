@@ -73,7 +73,7 @@
     <script src="js/script.js"></script>
     <script>
         let searchResults = [];
-        let currentPage = 1;
+        let searchCurrentPage = 1;
         const productsPerPage = 12;
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -102,7 +102,23 @@
             pageTitle.textContent = 'Sản phẩm giảm giá';
 
             // Filter only discounted
-            const discounted = products.filter(p => (p.discountPercent || 0) > 0);
+            const normalized = products.map(p => {
+                const raw = (p.discountPercent !== undefined && p.discountPercent !== null)
+                    ? p.discountPercent
+                    : (p.discount_percent !== undefined && p.discount_percent !== null)
+                        ? p.discount_percent
+                        : p.discount;
+                let discountPercent;
+                if (raw === undefined || raw === null) {
+                    discountPercent = computeDiscountPercent(p);
+                } else {
+                    const parsed = Number(raw);
+                    discountPercent = Number.isFinite(parsed) ? parsed : computeDiscountPercent(p);
+                }
+                return { ...p, discountPercent };
+            });
+
+            const discounted = normalized.filter(p => (p.discountPercent || 0) > 0);
             if (!discounted.length) {
                 document.querySelector('.product-grid-search').innerHTML = '<h3 style="grid-column:1/-1;text-align:center;color:#777;">Không có sản phẩm giảm giá</h3>';
                 document.getElementById('paginationContainer').style.display = 'none';
@@ -117,13 +133,13 @@
             }).sort((a,b) => b._discount - a._discount);
             
             searchResults = withDiscount;
-            currentPage = 1;
+            searchCurrentPage = 1;
             resultCount.textContent = `Tìm thấy ${withDiscount.length} sản phẩm đang giảm giá`;
             renderSalePage();
         }
 
         function renderSalePage() {
-            const startIdx = (currentPage - 1) * productsPerPage;
+            const startIdx = (searchCurrentPage - 1) * productsPerPage;
             const endIdx = startIdx + productsPerPage;
             const pageProducts = searchResults.slice(startIdx, endIdx);
             const totalPages = Math.ceil(searchResults.length / productsPerPage);
@@ -157,7 +173,6 @@
             setupCartButtonListeners();
             updatePagination(totalPages);
         }
-
         function loadSearchResults() {
             const params = new URLSearchParams(window.location.search);
             const query = params.get('q');
@@ -247,12 +262,12 @@
             }
 
             searchResults = products;
-            currentPage = 1;
+            searchCurrentPage = 1;
             renderSearchPage();
         }
 
         function renderSearchPage() {
-            const startIdx = (currentPage - 1) * productsPerPage;
+            const startIdx = (searchCurrentPage - 1) * productsPerPage;
             const endIdx = startIdx + productsPerPage;
             const pageProducts = searchResults.slice(startIdx, endIdx);
             const totalPages = Math.ceil(searchResults.length / productsPerPage);
@@ -269,11 +284,11 @@
             
             if (totalPages > 1) {
                 paginationContainer.style.display = 'block';
-                pageInfo.textContent = `Trang ${currentPage} / ${totalPages}`;
-                prevBtn.disabled = currentPage === 1;
-                nextBtn.disabled = currentPage === totalPages;
-                prevBtn.style.opacity = currentPage === 1 ? '0.5' : '1';
-                nextBtn.style.opacity = currentPage === totalPages ? '0.5' : '1';
+                pageInfo.textContent = `Trang ${searchCurrentPage} / ${totalPages}`;
+                prevBtn.disabled = searchCurrentPage === 1;
+                nextBtn.disabled = searchCurrentPage === totalPages;
+                prevBtn.style.opacity = searchCurrentPage === 1 ? '0.5' : '1';
+                nextBtn.style.opacity = searchCurrentPage === totalPages ? '0.5' : '1';
             } else {
                 paginationContainer.style.display = 'none';
             }
@@ -284,8 +299,8 @@
 
         // Pagination button handlers
         document.getElementById('prevPage').addEventListener('click', () => {
-            if (currentPage > 1) {
-                currentPage--;
+            if (searchCurrentPage > 1) {
+                searchCurrentPage--;
                 const params = new URLSearchParams(window.location.search);
                 if (params.get('sale') === '1') {
                     renderSalePage();
@@ -297,8 +312,8 @@
 
         document.getElementById('nextPage').addEventListener('click', () => {
             const totalPages = Math.ceil(searchResults.length / productsPerPage);
-            if (currentPage < totalPages) {
-                currentPage++;
+            if (searchCurrentPage < totalPages) {
+                searchCurrentPage++;
                 const params = new URLSearchParams(window.location.search);
                 if (params.get('sale') === '1') {
                     renderSalePage();

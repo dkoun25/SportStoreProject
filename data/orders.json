@@ -1,6 +1,6 @@
 [ {
   "id" : 1,
-  "sessionId" : "E5565A0D756360A9A393B66CF3984EA4",
+  "sessionId" : "CB683835680D6152EE11D04BE78A86DB",
   "userEmail" : "khangfa1997@gmail.com",
   "items" : [ {
     "id" : 6,
@@ -11,15 +11,15 @@
     "quantity" : 1,
     "size" : null,
     "color" : "Đôi Đen",
-    "addedDate" : 1769890783924,
+    "addedDate" : 1769894209593,
     "discountPercent" : null,
     "subtotal" : 4500000.0
   } ],
   "subtotal" : 4500000.0,
   "shipping" : 0.0,
-  "discount" : 0.0,
-  "total" : 4500000.0,
-  "promoCode" : null,
-  "createdAt" : 1769890788768,
+  "discount" : 675000.0,
+  "total" : 3825000.0,
+  "promoCode" : "APEX15",
+  "createdAt" : 1769894236286,
   "status" : "completed"
 } ]

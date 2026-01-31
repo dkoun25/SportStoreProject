@@ -63,6 +63,9 @@ public CartResponse updateQuantity(
         @RequestParam(required = false, defaultValue = "") String size,
         HttpSession session) {
     String sessionId = session.getId();
+    if (size != null && size.trim().isEmpty()) {
+        size = null;
+    }
     System.out.println("=== UPDATE QUANTITY ===");
     System.out.println("Product ID: " + productId);
     System.out.println("Size: " + size);
@@ -86,6 +89,9 @@ public CartResponse removeFromCart(
         @RequestParam(required = false, defaultValue = "") String size,
         HttpSession session) {
     String sessionId = session.getId();
+    if (size != null && size.trim().isEmpty()) {
+        size = null;
+    }
     System.out.println("=== REMOVE ITEM ===");
     System.out.println("Product ID: " + productId);
     System.out.println("Size: " + size);

@@ -78,15 +78,17 @@ public class CartService {
      */
     public CartResponse updateQuantity(String sessionId, int productId, String size, int newQuantity) {
         List<CartItem> cart = cartStorage.getOrDefault(sessionId, new ArrayList<>());
+        final String normalizedSize = (size != null && size.trim().isEmpty()) ? null : size;
 
-        for (CartItem item : cart) {
+        for (Iterator<CartItem> it = cart.iterator(); it.hasNext(); ) {
+            CartItem item = it.next();
             if (item.getId() == productId && 
-               (item.getSize() != null ? item.getSize().equals(size) : size == null)) {
+               (item.getSize() != null ? item.getSize().equals(normalizedSize) : normalizedSize == null)) {
                 if (newQuantity > 0) {
                     item.setQuantity(newQuantity);
                 } else {
                     // Nếu số lượng <= 0, xóa item
-                    cart.remove(item);
+                    it.remove();
                 }
                 break;
             }
@@ -106,9 +108,10 @@ public class CartService {
      */
     public CartResponse removeFromCart(String sessionId, int productId, String size) {
         List<CartItem> cart = cartStorage.getOrDefault(sessionId, new ArrayList<>());
+        final String normalizedSize = (size != null && size.trim().isEmpty()) ? null : size;
 
         cart.removeIf(item -> item.getId() == productId && 
-                             (item.getSize() != null ? item.getSize().equals(size) : size == null));
+                             (item.getSize() != null ? item.getSize().equals(normalizedSize) : normalizedSize == null));
 
         if (cart.isEmpty()) {
             cartStorage.remove(sessionId);

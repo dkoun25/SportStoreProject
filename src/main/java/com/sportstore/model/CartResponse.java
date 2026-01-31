@@ -35,11 +35,11 @@ public class CartResponse {
         // 2. Tính phí vận chuyển: Miễn phí nếu >= 200k, ngược lại 30k
         this.shipping = this.subtotal >= 200000 ? 0.0 : 30000.0;
 
-        // 3. Tính thuế: 10% của subtotal
-        this.tax = Math.floor(this.subtotal * 0.1);
+        // 3. Hiện chưa áp dụng thuế
+        this.tax = 0.0;
 
         // 4. Tính tổng cộng
-        this.total = this.subtotal + this.shipping + this.tax;
+        this.total = this.subtotal + this.shipping;
 
         // 5. Tính tổng số lượng items
         this.itemCount = items.stream()
