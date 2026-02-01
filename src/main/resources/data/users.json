@@ -1,12 +1,12 @@
 [ {
   "id" : 3,
   "firstName" : "Nguyễn",
-  "lastName" : "Khang Đẹp Trai",
-  "email" : "khangfa1997@gmail.com",
-  "phone" : "0342302353",
+  "lastName" : "Thiên",
+  "email" : "thien@gmail.com",
+  "phone" : "0123456789",
   "password" : "wsaddaswasd",
-  "avatar" : "https://ui-avatars.com/api/?name=Nguyễn+Khang Đẹp Trai&background=00ff66&color=000",
-  "address" : "thôn 5",
+  "avatar" : "https://ui-avatars.com/api/?name=Nguyễn+Thiên Đẹp Trai&background=00ff66&color=000",
+  "address" : "thôn 6",
   "createdAt" : 1769200674059
 }, {
   "id" : 1,
@@ -28,14 +28,4 @@
   "avatar" : "https://ui-avatars.com/api/?name=Admin+Thiện&background=00ff66&color=000",
   "address" : null,
   "createdAt" : 1769200447198
-}, {
-  "id" : 4,
-  "firstName" : "Nguyễn",
-  "lastName" : "Khang",
-  "email" : "levannho7591@gmail.com",
-  "phone" : "0342302353",
-  "password" : "asdasd123",
-  "avatar" : "https://ui-avatars.com/api/?name=Nguyễn+Khang&background=00ff66&color=000",
-  "address" : null,
-  "createdAt" : 1769213256395
-} ]
+}]
