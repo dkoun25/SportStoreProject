@@ -29,7 +29,12 @@ public class SportStoreApplication {
             @Override
             public void addCorsMappings(@org.springframework.lang.NonNull CorsRegistry registry) {
                 registry.addMapping("/api/**")
-                        .allowedOriginPatterns("http://localhost:*", "http://127.0.0.1:*")
+                        .allowedOriginPatterns(
+                                "http://localhost:*",
+                                "http://127.0.0.1:*",
+                                "https://*.railway.app",
+                                "https://*.up.railway.app"
+                        )
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
                         .allowCredentials(true)
