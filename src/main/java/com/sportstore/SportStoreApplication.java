@@ -32,8 +32,8 @@ public class SportStoreApplication {
                         .allowedOriginPatterns(
                                 "http://localhost:*",
                                 "http://127.0.0.1:*",
-                                "https://*.railway.app",
-                                "https://*.up.railway.app"
+                                "https://*.vercel.app",
+                                "https://*.onrender.com"
                         )
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
